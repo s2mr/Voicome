@@ -8,8 +8,13 @@
 
 import Foundation
 import Moya
+import RxSwift
 
 let VoiProvider = MoyaProvider<VoiAPI>()
+let VoiStubProvider = MoyaProvider<VoiAPI>(endpointClosure: { (target: VoiAPI) -> Endpoint in
+    let url = URL(target: target).absoluteString
+    return Endpoint(url: url, sampleResponseClosure: {.networkResponse(200, target.sampleData)}, method: target.method, task: target.task, httpHeaderFields: target.headers)
+})
 
 enum VoiAPI {
     case programList(channelId: Int, limit: Int, type_id: Int)
@@ -47,6 +52,10 @@ extension VoiAPI: TargetType {
 
     var sampleData: Data {
         switch self {
+        case .voiceData:
+            let path = Bundle.main.path(forResource: "ProgramList", ofType: "json")!
+            print(path)
+            return FileHandle(forReadingAtPath: path)!.readDataToEndOfFile()
         default:
             return "".data(using: .utf8)!
         }
@@ -72,4 +81,17 @@ extension VoiAPI: TargetType {
         return nil
     }
 
+}
+
+extension Single where Element == Moya.Response {
+    func mapTo<B: Codable>(object classType: B.Type) -> Single<B> {
+        return self.asObservable().map { response in
+            do {
+                print(String(data: response.data, encoding: .utf8)!)
+                return try JSONDecoder().decode(classType, from: response.data)
+            } catch (let e) {
+                throw e
+            }
+            }.asSingle()
+    }
 }

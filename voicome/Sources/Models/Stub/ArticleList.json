@@ -1,0 +1,111 @@
+{
+    "Status": 0,
+    "Value": {
+        "SpeakerId": 1108,
+        "SpeakerName": "井上拓美",
+        "ChannelImage": "0/af92365609ec5d6fa999a3024f1faedd",
+        "ChannelId": 588,
+        "ChannelName": "Why I do this.",
+        "ChannelClosed": false,
+        "PlaylistId": 14889,
+        "PlaylistName": "階級社会がもたらしていた日本人の創造性",
+        "Published": "2018-02-28T14:00:27Z",
+        "BgmType": 0,
+        "EffectType": 0,
+        "VoiceData": [
+            {
+                "SpeakerId": 0,
+                "ArticleId": 109,
+                "ArticleTitle": "タイトルコール",
+                "ArticleUrl": "",
+                "AttachedImage": "",
+                "MediaImage": "",
+                "MediaId": "10000",
+                "MediaName": "挨拶/コメント",
+                "VoiceId": 113057,
+                "VoiceFile": "2018/02/26/c49cb5cabe3cca09c4e75922d1a37eba",
+                "VoiceDuration": 144335
+            },
+            {
+                "SpeakerId": 0,
+                "ArticleId": 100,
+                "ArticleTitle": "初めのあいさつ",
+                "ArticleUrl": "",
+                "AttachedImage": "",
+                "MediaImage": "",
+                "MediaId": "10000",
+                "MediaName": "挨拶/コメント",
+                "VoiceId": 113064,
+                "VoiceFile": "2018/02/26/c2c3f8c659a4e74014df08ca43f4e909",
+                "VoiceDuration": 284490
+            },
+            {
+                "SpeakerId": 0,
+                "ArticleId": 752170,
+                "ArticleTitle": "道がある前提の教育を受けてきたが、その先にその道はなかった？",
+                "ArticleUrl": "",
+                "AttachedImage": "",
+                "MediaImage": "",
+                "MediaId": "10000",
+                "MediaName": "挨拶/コメント",
+                "VoiceId": 113076,
+                "VoiceFile": "2018/02/26/43b7c1ddcdbb4eeeeb8817fbb217d57d",
+                "VoiceDuration": 432355
+            },
+            {
+                "SpeakerId": 0,
+                "ArticleId": 752171,
+                "ArticleTitle": "じゃあ創造性ってどうやったら生まれるんだっけ？てか創造性ってなんやねん",
+                "ArticleUrl": "",
+                "AttachedImage": "",
+                "MediaImage": "",
+                "MediaId": "10000",
+                "MediaName": "挨拶/コメント",
+                "VoiceId": 113083,
+                "VoiceFile": "2018/02/26/83d0a11fd16e158f987f3ce94968e330",
+                "VoiceDuration": 277037
+            },
+            {
+                "SpeakerId": 0,
+                "ArticleId": 752172,
+                "ArticleTitle": "歴史を遡ると、日本人はかなり創造的な人種だった。階級社会が生み出した創造性。",
+                "ArticleUrl": "",
+                "AttachedImage": "",
+                "MediaImage": "",
+                "MediaId": "10000",
+                "MediaName": "挨拶/コメント",
+                "VoiceId": 113096,
+                "VoiceFile": "2018/02/26/5a4c3002d81e8050a08b3f74e5a0c250",
+                "VoiceDuration": 540560
+            },
+            {
+                "SpeakerId": 0,
+                "ArticleId": 752173,
+                "ArticleTitle": "どんな仕組みが創造性を加速させるか？どこにいけば創造性になれるか？",
+                "ArticleUrl": "",
+                "AttachedImage": "",
+                "MediaImage": "",
+                "MediaId": "10000",
+                "MediaName": "挨拶/コメント",
+                "VoiceId": 113107,
+                "VoiceFile": "2018/02/26/b032553ba4bf3a11ff71d7751b2f5440",
+                "VoiceDuration": 385381
+            },
+            {
+                "SpeakerId": 0,
+                "ArticleId": 101,
+                "ArticleTitle": "終わりのあいさつ",
+                "ArticleUrl": "",
+                "AttachedImage": "",
+                "MediaImage": "",
+                "MediaId": "10000",
+                "MediaName": "挨拶/コメント",
+                "VoiceId": 113120,
+                "VoiceFile": "2018/02/27/f2c2ee46e84b266496bee170d7d9170c",
+                "VoiceDuration": 420768
+            }
+        ],
+        "PlayFlg": true,
+        "FollowFlg": true
+    }
+}

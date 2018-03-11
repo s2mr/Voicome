@@ -45,10 +45,10 @@ class UserListViewController: UIViewController {
 
         subscribe()
 
-        VoiProvider.rx.request(.articleList(channelId: 1, pId: 1))
+        VoiProvider.rx.request(.programList(channelId: 588, limit: 20, type_id: 0))
+            .mapTo(object: VoicyResponse.self)
             .subscribe(onSuccess: { (r) in
-//                print(r.response!)
-                print(try! r.mapString())
+                print(r)
             }, onError: { (e) in
                 print(e)
             }).disposed(by: disposeBag)
