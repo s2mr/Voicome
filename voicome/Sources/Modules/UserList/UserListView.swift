@@ -22,6 +22,8 @@ class UserListView: UIView {
 
     private func commonInit() {
         setupLayout()
+
+        backgroundColor = .white
     }
 
     private func setupLayout() {
