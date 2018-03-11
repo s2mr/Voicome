@@ -12,7 +12,7 @@ import Moya
 let VoiProvider = MoyaProvider<VoiAPI>()
 
 enum VoiAPI {
-    case playlist(channelId: Int, limit: Int, type_id: Int)
+    case programList(channelId: Int, limit: Int, type_id: Int)
     case articleList(channelId: Int, pId: Int)
     case voiceData(name: String)
 }
@@ -29,7 +29,7 @@ extension VoiAPI: TargetType {
 
     var path: String {
         switch self {
-        case .playlist:
+        case .programList:
             return "/program_list"
         case .articleList:
             return "/articles_list"
@@ -59,7 +59,7 @@ extension VoiAPI: TargetType {
 
     private var parameters: [String: Any]? {
         switch self {
-        case .playlist(let channelId, let limit, let typeId):
+        case .programList(let channelId, let limit, let typeId):
             return ["channel_id": channelId, "limit": limit, "type_id": typeId]
         case .articleList(let channelId, let pid):
             return ["channel_id": channelId, "pid": pid]

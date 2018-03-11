@@ -10,6 +10,11 @@ import UIKit
 
 class UserListView: UIView {
 
+    let tableView: UITableView = {
+        let v = UITableView(frame: .zero)
+        return v
+    }()
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         commonInit()
@@ -27,5 +32,9 @@ class UserListView: UIView {
     }
 
     private func setupLayout() {
+        self.addSubview(tableView)
+        tableView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
     }
 }

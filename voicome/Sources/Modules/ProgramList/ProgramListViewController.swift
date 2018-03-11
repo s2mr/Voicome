@@ -1,5 +1,5 @@
 //
-//  ArticleListViewController.swift
+//  ProgramListViewController.swift
 //  voicome
 //
 //  Created by 下村一将 on 2018/03/11.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ArticleListViewController: UIViewController {
+class ProgramListViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()

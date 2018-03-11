@@ -1,5 +1,5 @@
 //
-//  ArticleListViewModel.swift
+//  User.swift
 //  voicome
 //
 //  Created by 下村一将 on 2018/03/11.
@@ -7,3 +7,8 @@
 //
 
 import Foundation
+
+struct User {
+    let name: String
+    let id: Int
+}

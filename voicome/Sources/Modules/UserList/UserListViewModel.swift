@@ -7,3 +7,13 @@
 //
 
 import Foundation
+
+class UserListViewModel {
+
+    let users: [User]
+
+    init() {
+        users = [User(name: "井上たくみ", id: 10)]
+    }
+    
+}

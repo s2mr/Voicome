@@ -1,5 +1,5 @@
 //
-//  ArticleListView.swift
+//  ProgramListView.swift
 //  voicome
 //
 //  Created by 下村一将 on 2018/03/11.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ArticleListView: UIView {
+class ProgramListView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
