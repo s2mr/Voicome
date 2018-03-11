@@ -10,6 +10,7 @@ target 'voicome' do
   pod 'RxCocoa'
   pod 'Alamofire'
   pod 'R.swift'
-
+  pod 'Moya/RxSwift'
+  pod 'SnapKit'
 
 end
