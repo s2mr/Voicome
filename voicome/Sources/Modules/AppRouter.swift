@@ -32,7 +32,7 @@ class AppRouter: Router {
 
     var rootViewController: RootViewController! = {
         let vc = UserListViewController.instanciate()
-        let nc = UINavigationController(rootViewController: vc)
+        let nc = NavigationController(rootViewController: vc)
         return nc
     }()
 
