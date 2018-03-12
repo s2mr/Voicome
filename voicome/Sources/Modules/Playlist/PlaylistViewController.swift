@@ -40,6 +40,8 @@ class PlaylistViewController: UIViewController {
         contentView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
+
+        self.navigationItem.rightBarButtonItem = contentView.downloadButton
     }
 
     override func viewDidLoad() {

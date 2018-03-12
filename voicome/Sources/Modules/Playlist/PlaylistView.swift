@@ -10,6 +10,11 @@ import UIKit
 
 class PlaylistView: UIView {
 
+    let downloadButton: UIBarButtonItem = {
+        let v = UIBarButtonItem(title: "Download", style: .plain, target: nil, action: nil)
+        return v
+    }()
+
     let tableView: UITableView = {
         let v = UITableView(frame: .zero)
         return v

@@ -19,11 +19,6 @@ class NavigationController: UINavigationController {
         return v
     }()
 
-    private let downloadButton: UIBarButtonItem = {
-        let v = UIBarButtonItem(title: "Download", style: .plain, target: nil, action: nil)
-        return v
-    }()
-
     override func loadView() {
         super.loadView()
 
