@@ -9,8 +9,11 @@
 import Foundation
 import Moya
 import RxSwift
+import Alamofire
 
-let VoiProvider = MoyaProvider<VoiAPI>()
+let VoiProvider = MoyaProvider<VoiAPI>(plugins: [NetworkLoggerPlugin(
+    verbose: true, cURL: true)])
+
 let VoiStubProvider = MoyaProvider<VoiAPI>(endpointClosure: { (target: VoiAPI) -> Endpoint in
     let url = URL(target: target).absoluteString
     return Endpoint(url: url, sampleResponseClosure: {.networkResponse(200, target.sampleData)}, method: target.method, task: target.task, httpHeaderFields: target.headers)
@@ -52,7 +55,7 @@ extension VoiAPI: TargetType {
 
     var sampleData: Data {
         switch self {
-        case .voiceData:
+        case .programList:
             let path = Bundle.main.path(forResource: "ProgramList", ofType: "json")!
             print(path)
             return FileHandle(forReadingAtPath: path)!.readDataToEndOfFile()
@@ -63,7 +66,18 @@ extension VoiAPI: TargetType {
 
     var task: Task {
         guard let parameters = parameters else { return .requestPlain }
-        return Task.requestParameters(parameters: parameters, encoding: URLEncoding.methodDependent)
+
+        switch self {
+        case .voiceData(let name):
+            let destination: DownloadRequest.DownloadFileDestination = { _, _ in
+                let directoryURL = FileManager.default.urls(for: .libraryDirectory, in: .userDomainMask)[0]
+                let fileURL = directoryURL.appendingPathComponent(name)
+                return (fileURL, [.removePreviousFile, .createIntermediateDirectories])
+            }
+            return Task.downloadDestination(destination)
+        default:
+            return Task.requestParameters(parameters: parameters, encoding: URLEncoding.methodDependent)
+        }
     }
 
     private var parameters: [String: Any]? {

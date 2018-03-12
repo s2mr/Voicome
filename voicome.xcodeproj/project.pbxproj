@@ -33,6 +33,7 @@
 		6E685685205595C600A5AA5B /* AppRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E685684205595C600A5AA5B /* AppRouter.swift */; };
 		6E68568820559C8C00A5AA5B /* UIViewController+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E68568720559C8C00A5AA5B /* UIViewController+Rx.swift */; };
 		6E68568A20567ED600A5AA5B /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E68568920567ED600A5AA5B /* NavigationController.swift */; };
+		6E68568D2056E3E500A5AA5B /* VoiError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E68568C2056E3E500A5AA5B /* VoiError.swift */; };
 		AC77967F116E89222088D2D8 /* Pods_voicome.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C35DAE37ECBF3508D225621 /* Pods_voicome.framework */; };
 /* End PBXBuildFile section */
 
@@ -68,6 +69,7 @@
 		6E685684205595C600A5AA5B /* AppRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRouter.swift; sourceTree = "<group>"; };
 		6E68568720559C8C00A5AA5B /* UIViewController+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Rx.swift"; sourceTree = "<group>"; };
 		6E68568920567ED600A5AA5B /* NavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationController.swift; sourceTree = "<group>"; };
+		6E68568C2056E3E500A5AA5B /* VoiError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiError.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -201,6 +203,7 @@
 				6E6856782054BB0300A5AA5B /* VoiAPI.swift */,
 				6E68567F2054E78400A5AA5B /* VoicyResponse.swift */,
 				6E68567A2054D70E00A5AA5B /* User.swift */,
+				6E68568C2056E3E500A5AA5B /* VoiError.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -378,6 +381,7 @@
 				6E6856722054B4B000A5AA5B /* ProgramListView.swift in Sources */,
 				6E6856742054B4BD00A5AA5B /* DownloadingListView.swift in Sources */,
 				6E6856542054ACBE00A5AA5B /* UserListViewModel.swift in Sources */,
+				6E68568D2056E3E500A5AA5B /* VoiError.swift in Sources */,
 				6E6856572054AE5C00A5AA5B /* PlaylistViewModel.swift in Sources */,
 				6E6856792054BB0300A5AA5B /* VoiAPI.swift in Sources */,
 				6E6856592054AEBA00A5AA5B /* ProgramListViewController.swift in Sources */,

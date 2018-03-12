@@ -33,8 +33,10 @@ class ProgramListViewModel {
             .flatMap { [weak self] () -> Driver<VoicyResponse> in
                 guard let me = self else { return Driver.never() }
                 return VoiProvider.rx.request(.programList(channelId: me.user.channelId, limit: 20, type_id: 0))
+                    .map { print($0.request?.debugDescription ?? ""); return $0 }
                     .mapTo(object: VoicyResponse.self)
                     .asDriver(onErrorRecover: { (e) -> SharedSequence<DriverSharingStrategy, VoicyResponse> in
+                        print(e)
                         return Driver.never()
                     })
             }.drive(onNext: { [weak self] r in

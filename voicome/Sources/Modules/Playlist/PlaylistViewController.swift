@@ -51,7 +51,8 @@ class PlaylistViewController: UIViewController {
     }
 
     func subscribe() {
-        let input = PlaylistViewModel.Input(viewDidLoad: self.rx.viewDidLoad.asDriver())
+        let input = PlaylistViewModel.Input(viewDidLoad: self.rx.viewDidLoad.asDriver(),
+                                            downloadButtonTapped: self.contentView.downloadButton.rx.tap.asDriver())
         let output = viewModel.translate(input)
 
         output.voiceDatas.asDriver()
