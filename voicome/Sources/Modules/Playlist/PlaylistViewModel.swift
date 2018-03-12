@@ -32,7 +32,8 @@ class PlaylistViewModel {
         
         self.action
             .map(translate)
-            .subscribe()
+            .subscribe(onNext: {
+            })
             .disposed(by: disposeBag)
     }
 
@@ -47,9 +48,10 @@ class PlaylistViewModel {
     }
 
     func translate(_ input: Input) -> Output {
-        input.downloadButtonTapped.drive { [weak self] in
-            self?.action.onNext(.download)
-        }.disposed(by: disposeBag)
+        input.downloadButtonTapped
+            .drive(onNext: { [weak self] in
+                self?.action.onNext(.download)
+            }).disposed(by: disposeBag)
 
         return Output(voiceDatas: voiceDatas, state: state)
     }

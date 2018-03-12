@@ -24,7 +24,8 @@ class NavigationController: UINavigationController {
 
         self.view.addSubview(showDonloadingListButton)
         showDonloadingListButton.snp.makeConstraints {
-            $0.right.bottom.equalToSuperview().offset(-20)
+            $0.right.equalToSuperview().offset(-20)
+            $0.bottom.equalToSuperview().offset(-55)
             $0.size.equalTo(60)
         }
     }

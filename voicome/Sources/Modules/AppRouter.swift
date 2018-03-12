@@ -20,7 +20,7 @@ public protocol Router {
 
 class AppRouter: Router {
 
-    typealias RootViewController = UINavigationController
+    typealias RootViewController = UITabBarController
 
     enum Location {
         case userList
@@ -30,10 +30,26 @@ class AppRouter: Router {
 
     static var shared = AppRouter()
 
-    var rootViewController: RootViewController! = {
+    private static var exploreTab: UINavigationController = {
         let vc = UserListViewController.instanciate()
+        vc.title = "Explore"
         let nc = NavigationController(rootViewController: vc)
         return nc
+    }()
+
+    private static var downloadedListTab: UINavigationController = {
+        let vc = DownloadedListViewController.instanciate()
+        vc.title = "Downloaded"
+        let nc = NavigationController(rootViewController: vc)
+        return nc
+    }()
+
+    var rootViewController: RootViewController! = {
+        let tc = UITabBarController()
+        tc.addChildViewController(exploreTab)
+        tc.addChildViewController(downloadedListTab)
+
+        return tc
     }()
 
     func route(to location: AppRouter.Location, from: UIViewController?) {
@@ -42,10 +58,10 @@ class AppRouter: Router {
             rootViewController.setViewControllers([UserListViewController.instanciate()], animated: false)
         case .programList(let user):
             let vc = ProgramListViewController.instantiate(user: user)
-            rootViewController.pushViewController(vc, animated: true)
+            AppRouter.exploreTab.pushViewController(vc, animated: true)
         case .playlist(let program):
             let vc = PlaylistViewController.instanciate(program: program)
-            rootViewController.pushViewController(vc, animated: true)
+            AppRouter.exploreTab.pushViewController(vc, animated: true)
         }
     }
 }

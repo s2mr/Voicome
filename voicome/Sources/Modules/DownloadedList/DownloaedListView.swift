@@ -10,6 +10,11 @@ import UIKit
 
 class DownloaedListView: UIView {
 
+    let tableView: UITableView = {
+        let v = UITableView(frame: .zero)
+        return v
+    }()
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         commonInit()
@@ -21,11 +26,14 @@ class DownloaedListView: UIView {
     }
 
     private func commonInit() {
-        
         setupLayout()
     }
 
     private func setupLayout() {
+        self.addSubview(tableView)
+        tableView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
     }
 
 }
