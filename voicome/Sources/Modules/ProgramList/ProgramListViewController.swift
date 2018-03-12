@@ -56,10 +56,9 @@ class ProgramListViewController: UIViewController {
 
         viewModel.response.asObservable()
             .debug()
-            .do {
+            .subscribe(onNext: { _ in
                 self.contentView.tableView.reloadData()
-            }
-            .subscribe()
+            })
             .disposed(by: disposeBag)
     }
 }
@@ -72,7 +71,7 @@ extension ProgramListViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: .default, reuseIdentifier: nil)
-        cell.textLabel?.text = viewModel.response.value[indexPath.row].channelName
+        cell.textLabel?.text = viewModel.response.value[indexPath.row].speakerName
         return cell
     }
 }
