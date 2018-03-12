@@ -13,7 +13,7 @@ import RxCocoa
 class ProgramListViewModel {
 
     private let user: User
-    let response: BehaviorRelay<[VoicyResponse.PlaylistDatas.PlaylistData]> = BehaviorRelay(value: [])
+    private let playlists: BehaviorRelay<[VoicyResponse.PlaylistData]> = BehaviorRelay(value: [])
     private let disposebag = DisposeBag()
 
     init(user: User) {
@@ -25,42 +25,23 @@ class ProgramListViewModel {
     }
 
     struct Output {
-
+        let playlists: BehaviorRelay<[VoicyResponse.PlaylistData]>
     }
  
-    func translate(from input: Input) {
+    func translate(from input: Input) -> Output {
         input.viewWillAppear
-//            .debug()
             .flatMap { [weak self] () -> Driver<VoicyResponse> in
                 guard let me = self else { return Driver.never() }
                 return VoiProvider.rx.request(.programList(channelId: me.user.channelId, limit: 20, type_id: 0))
-//                    .debug()
                     .mapTo(object: VoicyResponse.self)
                     .asDriver(onErrorRecover: { (e) -> SharedSequence<DriverSharingStrategy, VoicyResponse> in
                         return Driver.never()
                     })
-//                    .asObservable()
-//                    .map { $0.value.playlistData }
-//                    .bind(to: me.response)
-//                me.disposebag.insert(dis)
             }.drive(onNext: { [weak self] r in
-                self?.response.accept(r.value.playlistData)
+                guard let me = self else { return }
+                me.playlists.accept(r.value.playlistData)
             }).disposed(by: disposebag)
 
+        return Output(playlists: playlists)
     }
 }
-
-
-/*
-
-
- VoiProvider.rx.request(.programList(channelId: 588, limit: 20, type_id: 0))
- .mapTo(object: VoicyResponse.self)
- .subscribe(onSuccess: { (r) in
- print(r)
- }, onError: { (e) in
- print(e)
- }).disposed(by: disposeBag)
-
-
- */

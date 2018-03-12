@@ -42,36 +42,25 @@ class ProgramListViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        contentView.tableView.dataSource = self
-//        contentView.tableView.delegate = self
-
         subscribe()
     }
 
     func subscribe() {
-
         let input = ProgramListViewModel.Input(viewWillAppear: self.rx.viewWillAppear.asDriver())
-        viewModel.translate(from: input)
+        let output = viewModel.translate(from: input)
 
-        viewModel.response.asObservable()
-            .debug()
-            .subscribe(onNext: { _ in
-                self.contentView.tableView.reloadData()
+        output.playlists.asDriver()
+            .drive(contentView.tableView.rx.items) ({ (tableView, row, playlist) -> UITableViewCell in
+                let cell = UITableViewCell(style: .default, reuseIdentifier: nil)
+                cell.textLabel!.text = playlist.playlistName
+                return cell
             })
             .disposed(by: disposeBag)
+
+        contentView.tableView.rx.modelSelected(VoicyResponse.PlaylistData.self)
+            .subscribe(onNext: { model in
+                AppRouter.shared.route(to: .playlist(program: model), from: self)
+            }).disposed(by: disposeBag)
     }
 }
 
-extension ProgramListViewController: UITableViewDataSource {
-
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.response.value.count
-    }
-
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell(style: .default, reuseIdentifier: nil)
-        cell.textLabel?.text = viewModel.response.value[indexPath.row].speakerName
-        return cell
-    }
-}

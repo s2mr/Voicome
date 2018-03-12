@@ -10,33 +10,33 @@ import Foundation
 
 struct VoicyResponse: Codable {
 
-    struct PlaylistDatas: Codable {
+    struct VoiceData: Codable {
+        let articleTitle: String
+        let mediaName: String
+        let voiceFile: String
 
-        struct PlaylistData: Codable {
+        private enum CodingKeys: String, CodingKey {
+            case articleTitle = "ArticleTitle"
+            case mediaName = "MediaName"
+            case voiceFile = "VoiceFile"
+        }
+    }
 
-            struct VoiceData: Codable {
-                let articleTitle: String
-                let mediaName: String
-                let voiceFile: String
-
-                private enum CodingKeys: String, CodingKey {
-                    case articleTitle = "ArticleTitle"
-                    case mediaName = "MediaName"
-                    case voiceFile = "VoiceFile"
-                }
-            }
-
-            private enum CodingKeys: String, CodingKey {
-                case channelName = "ChannelName"
-                case speakerName = "SpeakerName"
-                case voiceData = "VoiceData"
-            }
-
-            let channelName: String
-            let speakerName: String
-            let voiceData: [VoiceData]
+    struct PlaylistData: Codable {
+        private enum CodingKeys: String, CodingKey {
+            case channelName = "ChannelName"
+            case speakerName = "SpeakerName"
+            case voiceDatas = "VoiceData"
+            case playlistName = "PlaylistName"
         }
 
+        let channelName: String
+        let speakerName: String
+        let playlistName: String
+        let voiceDatas: [VoiceData]
+    }
+
+    struct PlaylistDatas: Codable {
         private enum CodingKeys: String, CodingKey {
             case playlistData = "PlaylistData"
         }

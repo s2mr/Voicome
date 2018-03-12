@@ -25,6 +25,7 @@ class AppRouter: Router {
     enum Location {
         case userList
         case programList(user: User)
+        case playlist(program: VoicyResponse.PlaylistData)
     }
 
     static var shared = AppRouter()
@@ -41,6 +42,9 @@ class AppRouter: Router {
             rootViewController.setViewControllers([UserListViewController.instanciate()], animated: false)
         case .programList(let user):
             let vc = ProgramListViewController.instantiate(user: user)
+            rootViewController.pushViewController(vc, animated: true)
+        case .playlist(let program):
+            let vc = PlaylistViewController.instanciate(program: program)
             rootViewController.pushViewController(vc, animated: true)
         }
     }

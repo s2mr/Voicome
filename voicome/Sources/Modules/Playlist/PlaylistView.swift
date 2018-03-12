@@ -9,6 +9,11 @@
 import UIKit
 
 class PlaylistView: UIView {
+
+    let tableView: UITableView = {
+        let v = UITableView(frame: .zero)
+        return v
+    }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -22,9 +27,15 @@ class PlaylistView: UIView {
     
     private func commonInit() {
         setupLayout()
+
+        self.backgroundColor = .white
     }
     
     private func setupLayout() {
+        self.addSubview(tableView)
+        tableView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
     }
     
 }
