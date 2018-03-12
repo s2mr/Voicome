@@ -87,7 +87,7 @@ extension Single where Element == Moya.Response {
     func mapTo<B: Codable>(object classType: B.Type) -> Single<B> {
         return self.asObservable().map { response in
             do {
-                print(String(data: response.data, encoding: .utf8)!)
+//                print(String(data: response.data, encoding: .utf8)!)
                 return try JSONDecoder().decode(classType, from: response.data)
             } catch (let e) {
                 throw e

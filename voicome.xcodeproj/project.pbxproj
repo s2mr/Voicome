@@ -30,6 +30,8 @@
 		6E68567E2054E55400A5AA5B /* ProgramList.json in Resources */ = {isa = PBXBuildFile; fileRef = 6E68567D2054E55400A5AA5B /* ProgramList.json */; };
 		6E6856802054E78400A5AA5B /* VoicyResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E68567F2054E78400A5AA5B /* VoicyResponse.swift */; };
 		6E6856822055949B00A5AA5B /* ArticleList.json in Resources */ = {isa = PBXBuildFile; fileRef = 6E6856812055949B00A5AA5B /* ArticleList.json */; };
+		6E685685205595C600A5AA5B /* AppRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E685684205595C600A5AA5B /* AppRouter.swift */; };
+		6E68568820559C8C00A5AA5B /* UIViewController+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E68568720559C8C00A5AA5B /* UIViewController+Rx.swift */; };
 		AC77967F116E89222088D2D8 /* Pods_voicome.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C35DAE37ECBF3508D225621 /* Pods_voicome.framework */; };
 /* End PBXBuildFile section */
 
@@ -62,6 +64,8 @@
 		6E68567D2054E55400A5AA5B /* ProgramList.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = ProgramList.json; sourceTree = "<group>"; };
 		6E68567F2054E78400A5AA5B /* VoicyResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoicyResponse.swift; sourceTree = "<group>"; };
 		6E6856812055949B00A5AA5B /* ArticleList.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = ArticleList.json; sourceTree = "<group>"; };
+		6E685684205595C600A5AA5B /* AppRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRouter.swift; sourceTree = "<group>"; };
+		6E68568720559C8C00A5AA5B /* UIViewController+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Rx.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,6 +121,7 @@
 		6E68564B2054AB3900A5AA5B /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				6E68568620559C7700A5AA5B /* Extension */,
 				6E6856772054BACB00A5AA5B /* Models */,
 				6E68564C2054AB3D00A5AA5B /* Modules */,
 			);
@@ -131,6 +136,7 @@
 				6E68565A2054AEBF00A5AA5B /* ProgramList */,
 				6E68564E2054AC7E00A5AA5B /* Playlist */,
 				6E68564D2054AB4B00A5AA5B /* UserList */,
+				6E685684205595C600A5AA5B /* AppRouter.swift */,
 			);
 			path = Modules;
 			sourceTree = "<group>";
@@ -203,6 +209,14 @@
 				6E68567D2054E55400A5AA5B /* ProgramList.json */,
 			);
 			path = Stub;
+			sourceTree = "<group>";
+		};
+		6E68568620559C7700A5AA5B /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				6E68568720559C8C00A5AA5B /* UIViewController+Rx.swift */,
+			);
+			path = Extension;
 			sourceTree = "<group>";
 		};
 		736E61CA6349EF7E93F25E85 /* Pods */ = {
@@ -368,6 +382,8 @@
 				6E68563A2054204700A5AA5B /* AppDelegate.swift in Sources */,
 				6E6856502054AC9300A5AA5B /* PlaylistViewController.swift in Sources */,
 				6E6856702054B4A600A5AA5B /* PlaylistView.swift in Sources */,
+				6E685685205595C600A5AA5B /* AppRouter.swift in Sources */,
+				6E68568820559C8C00A5AA5B /* UIViewController+Rx.swift in Sources */,
 				6E68566C2054B48100A5AA5B /* DownloadedListViewModel.swift in Sources */,
 				6E68566E2054B49C00A5AA5B /* UserListView.swift in Sources */,
 				6E68565E2054AEDC00A5AA5B /* ProgramListViewModel.swift in Sources */,

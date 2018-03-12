@@ -13,7 +13,7 @@ class UserListViewModel {
     let users: [User]
 
     init() {
-        users = [User(name: "井上たくみ", id: 10)]
+        users = [User(name: "井上たくみ", channelId: 588)]
     }
     
 }

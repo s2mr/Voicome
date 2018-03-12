@@ -44,18 +44,11 @@ class UserListViewController: UIViewController {
         super.viewDidLoad()
 
         subscribe()
-
-        VoiProvider.rx.request(.programList(channelId: 588, limit: 20, type_id: 0))
-            .mapTo(object: VoicyResponse.self)
-            .subscribe(onSuccess: { (r) in
-                print(r)
-            }, onError: { (e) in
-                print(e)
-            }).disposed(by: disposeBag)
     }
 
     func subscribe() {
         contentView.tableView.dataSource = self
+        contentView.tableView.delegate = self
     }
 }
 
@@ -68,6 +61,12 @@ extension UserListViewController: UITableViewDataSource {
         let cell = UITableViewCell(style: .default, reuseIdentifier: nil)
         cell.textLabel?.text = viewModel.users[indexPath.row].name
         return cell
+    }
+}
+
+extension UserListViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        AppRouter.shared.route(to: .programList(user: viewModel.users[indexPath.row]), from: self)
     }
 }
 
