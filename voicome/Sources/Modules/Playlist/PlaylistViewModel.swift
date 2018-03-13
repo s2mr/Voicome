@@ -26,7 +26,15 @@ class PlaylistViewModel {
     private let disposeBag = DisposeBag()
 
     init(program: VoicyResponse.PlaylistData) {
-        self.voiceDatas = BehaviorRelay(value: program.voiceDatas)
+        let datas = program.voiceDatas.enumerated().map {
+            return VoicyResponse.VoiceData(articleTitle: $0.1.articleTitle,
+                                           mediaName: $0.1.mediaName,
+                                           voiceFile: $0.1.voiceFile,
+                                           voiceIndex: $0.0 + 1,
+                                           speakerName: program.speakerName,
+                                           playlistName: program.playlistName)
+        }
+        self.voiceDatas = BehaviorRelay(value: datas)
         self.action = PublishSubject()
         self.state = PublishSubject()
         
@@ -59,24 +67,16 @@ class PlaylistViewModel {
     func translate(_ action: Action) {
         switch action {
         case .download:
-            // TODO:
-//            for data in voiceDatas.value {
-//                data.voiceFile
-//            }
-            if let v = voiceDatas.value.first?.voiceFile {
-                VoiProvider.rx.requestWithProgress(.voiceData(name: v), callbackQueue: nil)
+            for v in voiceDatas.value {
+                VoiProvider.rx.requestWithProgress(.voiceData(voice: v), callbackQueue: nil)
                     .subscribe(onNext: { (r) in
-                        print(r.progress)
-                        print("\(r.completed ? "End" : "Not End")")
                     }, onError: { (e) in
                         print(e.localizedDescription)
                     }, onCompleted: {
-                        print("completed")
+                        print("download completed")
                     }, onDisposed: {
-                        print("disposed")
                     }).disposed(by: disposeBag)
             }
-
         }
     }
 }

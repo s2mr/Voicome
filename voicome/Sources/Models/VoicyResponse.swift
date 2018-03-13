@@ -14,11 +14,17 @@ struct VoicyResponse: Codable {
         let articleTitle: String
         let mediaName: String
         let voiceFile: String
+        var voiceIndex: Int?
+        var speakerName: String?
+        var playlistName: String?
 
         private enum CodingKeys: String, CodingKey {
             case articleTitle = "ArticleTitle"
             case mediaName = "MediaName"
             case voiceFile = "VoiceFile"
+            case voiceIndex
+            case speakerName
+            case playlistName
         }
     }
 
@@ -49,3 +55,4 @@ struct VoicyResponse: Codable {
     }
     let value: PlaylistDatas
 }
+

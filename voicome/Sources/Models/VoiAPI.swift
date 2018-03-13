@@ -22,7 +22,7 @@ let VoiStubProvider = MoyaProvider<VoiAPI>(endpointClosure: { (target: VoiAPI) -
 enum VoiAPI {
     case programList(channelId: Int, limit: Int, type_id: Int)
     case articleList(channelId: Int, pId: Int)
-    case voiceData(name: String)
+    case voiceData(voice: VoicyResponse.VoiceData)
 }
 
 extension VoiAPI: TargetType {
@@ -41,8 +41,8 @@ extension VoiAPI: TargetType {
             return "/program_list"
         case .articleList:
             return "/articles_list"
-        case .voiceData(let name):
-            return "/voice/\(name)"
+        case .voiceData(let voice):
+            return "/voice/\(voice.voiceFile)"
         }
     }
 
@@ -65,17 +65,19 @@ extension VoiAPI: TargetType {
     }
 
     var task: Task {
-        guard let parameters = parameters else { return .requestPlain }
-
         switch self {
-        case .voiceData(let name):
+        case .voiceData(let voice):
             let destination: DownloadRequest.DownloadFileDestination = { _, _ in
                 let directoryURL = FileManager.default.urls(for: .libraryDirectory, in: .userDomainMask)[0]
-                let fileURL = directoryURL.appendingPathComponent(name)
+                let fileURL = directoryURL.appendingPathComponent("/Downloaded/\(voice.speakerName ?? "unknown")/\(voice.playlistName ?? "unknown")/\(voice.voiceIndex ?? 0).\(voice.articleTitle).mpeg")
+
+                print("Downloaded", fileURL.absoluteString)
+
                 return (fileURL, [.removePreviousFile, .createIntermediateDirectories])
             }
             return Task.downloadDestination(destination)
         default:
+            guard let parameters = parameters else { return .requestPlain }
             return Task.requestParameters(parameters: parameters, encoding: URLEncoding.methodDependent)
         }
     }
@@ -101,7 +103,6 @@ extension Single where Element == Moya.Response {
     func mapTo<B: Codable>(object classType: B.Type) -> Single<B> {
         return self.asObservable().map { response in
             do {
-//                print(String(data: response.data, encoding: .utf8)!)
                 return try JSONDecoder().decode(classType, from: response.data)
             } catch (let e) {
                 throw e
