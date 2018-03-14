@@ -20,7 +20,7 @@ public protocol Router {
 
 class AppRouter: Router {
 
-    typealias RootViewController = UITabBarController
+    typealias RootViewController = TabBarController
 
     enum Location {
         case userList
@@ -33,19 +33,19 @@ class AppRouter: Router {
     private static var exploreTab: UINavigationController = {
         let vc = UserListViewController.instanciate()
         vc.title = "Explore"
-        let nc = NavigationController(rootViewController: vc)
+        let nc = UINavigationController(rootViewController: vc)
         return nc
     }()
 
     private static var downloadedListTab: UINavigationController = {
         let vc = DownloadedListViewController.instanciate()
         vc.title = "Downloaded"
-        let nc = NavigationController(rootViewController: vc)
+        let nc = UINavigationController(rootViewController: vc)
         return nc
     }()
 
     var rootViewController: RootViewController! = {
-        let tc = UITabBarController()
+        let tc = TabBarController()
         tc.addChildViewController(exploreTab)
         tc.addChildViewController(downloadedListTab)
 

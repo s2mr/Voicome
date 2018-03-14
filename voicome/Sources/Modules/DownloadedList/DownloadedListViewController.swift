@@ -60,8 +60,17 @@ class DownloadedListViewController: UIViewController {
         }.disposed(by: disposeBag)
 
         contentView.tableView.rx.modelSelected(URL.self)
+            .map { url -> Optional<URL> in
+                var res: URL = url
+                while let url = try? FileManager.default.contentsOfDirectory(at: res, includingPropertiesForKeys: nil, options: [.skipsHiddenFiles]).first {
+                    if let url = url {
+                        res = url
+                    }
+                }
+                return res
+            }
             .subscribe(onNext: { url in
-                
-            })
+                print(url)
+            }).disposed(by: disposeBag)
     }
 }

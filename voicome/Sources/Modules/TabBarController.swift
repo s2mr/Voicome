@@ -8,7 +8,7 @@
 
 import UIKit
 
-class NavigationController: UINavigationController {
+class TabBarController: UITabBarController {
 
     private let showDonloadingListButton: UIButton = {
         let v = UIButton(frame: .zero)
@@ -19,14 +19,26 @@ class NavigationController: UINavigationController {
         return v
     }()
 
+    private let playerView: PlayerView = {
+        let v = PlayerView(frame: .zero)
+        return v
+    }()
+
     override func loadView() {
         super.loadView()
 
         self.view.addSubview(showDonloadingListButton)
         showDonloadingListButton.snp.makeConstraints {
             $0.right.equalToSuperview().offset(-20)
-            $0.bottom.equalToSuperview().offset(-55)
+            $0.bottom.equalToSuperview().offset(-100)
             $0.size.equalTo(60)
+        }
+
+        self.view.addSubview(playerView)
+        playerView.snp.makeConstraints { [weak self] in
+            $0.width.equalToSuperview()
+            $0.height.equalTo(30)
+            $0.bottom.equalToSuperview().offset(-40)
         }
     }
 
