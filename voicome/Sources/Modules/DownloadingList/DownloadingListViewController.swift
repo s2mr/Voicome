@@ -12,7 +12,7 @@ import RxSwift
 class DownloadingListViewController: UIViewController {
 
     static func instanciate() -> DownloadingListViewController {
-        let vc = DownloadingListViewController()
+        let vc = DownloadingListViewController(viewModel: DownloadingListViewModel())
         return vc
     }
 
@@ -23,17 +23,15 @@ class DownloadingListViewController: UIViewController {
 
     private let disposeBag = DisposeBag()
 
-    private init() {
-        print("[INIT]DownloadingListViewController")
+    let viewModel: DownloadingListViewModel
+
+    private init(viewModel: DownloadingListViewModel) {
+        self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-
-    deinit {
-        print("[DEINIT]DownloadingListViewController")
     }
 
     override func loadView() {
@@ -55,6 +53,12 @@ class DownloadingListViewController: UIViewController {
         contentView.backButton.rx.tap.subscribe(onNext: { [weak self] in
             guard let me = self else { return }
             me.dismiss(animated: true, completion: nil)
-        })
+        }).disposed(by: disposeBag)
+
+        viewModel.voices.bind(to: contentView.tableView.rx.items)  { (tableView, row, voice) -> UITableViewCell in
+            let cell = UITableViewCell(style: .default, reuseIdentifier: nil)
+            cell.textLabel?.text = voice.articleTitle
+            return cell
+        }.disposed(by: disposeBag)
     }
 }

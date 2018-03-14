@@ -57,8 +57,11 @@ class PlaylistViewController: UIViewController {
 
         output.voiceDatas.asDriver()
             .drive(self.contentView.tableView.rx.items)  { (tableView, row, voiceData) -> UITableViewCell in
-                let cell = UITableViewCell(style: .default, reuseIdentifier: nil)
-                cell.textLabel!.text = voiceData.articleTitle
+                let cell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
+                cell.textLabel?.text = voiceData.articleTitle
+                let min = voiceData.voiceDuration/(1000*60)
+                let sec = voiceData.voiceDuration/1000 - (min * 60)
+                cell.detailTextLabel?.text = "\(min):\(sec)"
                 return cell
         }.disposed(by: disposeBag)
     }

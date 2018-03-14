@@ -10,30 +10,17 @@ import Foundation
 import RxSwift
 import RxCocoa
 
-class DownloadingListViewModel {
+class DownloadedListViewModel {
 
+    private let currentDirectory: URL
     private let items: BehaviorRelay<[URL]>
     private let disposeBag = DisposeBag()
     private let fileManager = FileManager.default
     private let audioDirectorySubject = ReplaySubject<Bool>.create(bufferSize: 1)
 
     init(url: URL) {
-        var urls: [URL] = []
-        do {
-            urls = try fileManager.contentsOfDirectory(at: url,
-                                                   includingPropertiesForKeys: nil,
-                                                   options: [.skipsHiddenFiles])
-        } catch let e {
-            print(e)
-        }
-        urls = urls.sorted { (u1, u2) -> Bool in
-            return u1.lastPathComponent < u2.lastPathComponent
-        }
-        items = BehaviorRelay(value: urls)
-
-        if let url = urls.first {
-            audioDirectorySubject.onNext(url.pathExtension != "")
-        }
+        self.currentDirectory = url
+        self.items = BehaviorRelay(value: [])
     }
 
     struct Input {
@@ -48,8 +35,23 @@ class DownloadingListViewModel {
     }
 
     func translate(_ input: Input) -> Output {
-        input.viewWillAppear.drive(onNext: {
-
+        input.viewWillAppear.drive(onNext: { [weak self] in
+            guard let me = self else { return }
+            var urls: [URL] = []
+            do {
+                urls = try me.fileManager.contentsOfDirectory(at: me.currentDirectory,
+                                                           includingPropertiesForKeys: nil,
+                                                           options: [.skipsHiddenFiles])
+            } catch let e {
+                print(e)
+            }
+            urls = urls.sorted { (u1, u2) -> Bool in
+                return u1.lastPathComponent < u2.lastPathComponent
+            }
+            me.items.accept(urls)
+            if let url = urls.first {
+                me.audioDirectorySubject.onNext(url.pathExtension != "")
+            }
         }).disposed(by: disposeBag)
 
         input.urlSelected.drive(onNext: {[weak self] url in

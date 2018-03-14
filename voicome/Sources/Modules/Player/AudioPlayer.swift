@@ -12,7 +12,11 @@ import AVFoundation
 class AudioPlayer: NSObject {
 
     private var player: AVAudioPlayer?
-    var playlist: [URL]
+    var playlist: [URL] {
+        didSet {
+            playlistNextIndex = 0
+        }
+    }
     private var playlistNextIndex = 0
 
     static let shared = AudioPlayer()

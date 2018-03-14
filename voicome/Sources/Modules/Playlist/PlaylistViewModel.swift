@@ -13,7 +13,7 @@ import RxCocoa
 class PlaylistViewModel {
 
     enum Action {
-        case download
+        case download(voices: [VoicyResponse.VoiceData])
     }
 
     enum State {
@@ -30,6 +30,7 @@ class PlaylistViewModel {
             return VoicyResponse.VoiceData(articleTitle: $0.1.articleTitle,
                                            mediaName: $0.1.mediaName,
                                            voiceFile: $0.1.voiceFile,
+                                           voiceDuration: $0.1.voiceDuration,
                                            voiceIndex: $0.0 + 1,
                                            speakerName: program.speakerName,
                                            playlistName: program.playlistName)
@@ -58,7 +59,8 @@ class PlaylistViewModel {
     func translate(_ input: Input) -> Output {
         input.downloadButtonTapped
             .drive(onNext: { [weak self] in
-                self?.action.onNext(.download)
+                guard let me = self else { return }
+                me.action.onNext(.download(voices: me.voiceDatas.value))
             }).disposed(by: disposeBag)
 
         return Output(voiceDatas: voiceDatas, state: state)
@@ -66,18 +68,8 @@ class PlaylistViewModel {
 
     func translate(_ action: Action) {
         switch action {
-        case .download:
-            for v in voiceDatas.value {
-                VoiProvider.rx.requestWithProgress(.voiceData(voice: v), callbackQueue: nil)
-                    .subscribe(onNext: { (r) in
-                        print(r.progress)
-                    }, onError: { (e) in
-                        print(e.localizedDescription)
-                    }, onCompleted: {
-                        print("download completed")
-                    }, onDisposed: {
-                    }).disposed(by: disposeBag)
-            }
+        case .download(let voices):
+            AppRouter.shared.rootViewController.downloadingListViewController.viewModel.voices.onNext(voices)
         }
     }
 }

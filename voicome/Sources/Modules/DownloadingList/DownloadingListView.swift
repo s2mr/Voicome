@@ -22,6 +22,11 @@ class DownloadingListView: UIView {
         v.setTitleColor(.blue, for: .normal)
         return v
     }()
+
+    let tableView: UITableView = {
+        let v = UITableView(frame: .zero)
+        return v
+    }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -51,6 +56,12 @@ class DownloadingListView: UIView {
         self.backButton.snp.makeConstraints {
             $0.centerY.equalToSuperview()
             $0.left.equalToSuperview().offset(16)
+        }
+
+        self.addSubview(self.tableView)
+        self.tableView.snp.makeConstraints {
+            $0.top.equalTo(headerView.snp.bottom)
+            $0.width.bottom.equalToSuperview()
         }
     }
     

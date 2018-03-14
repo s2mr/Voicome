@@ -13,7 +13,7 @@ import AVFoundation
 class DownloadedListViewController: UIViewController {
 
     static func instanciate(url: URL) -> DownloadedListViewController {
-        return DownloadedListViewController(viewModel: DownloadingListViewModel(url: url))
+        return DownloadedListViewController(viewModel: DownloadedListViewModel(url: url))
     }
 
     private let contentView: DownloaedListView = {
@@ -21,11 +21,11 @@ class DownloadedListViewController: UIViewController {
         return v
     }()
 
-    private let viewModel: DownloadingListViewModel
+    private let viewModel: DownloadedListViewModel
     private let disposeBag = DisposeBag()
     private var player: AVAudioPlayer!
 
-    private init(viewModel: DownloadingListViewModel) {
+    private init(viewModel: DownloadedListViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
@@ -51,7 +51,7 @@ class DownloadedListViewController: UIViewController {
 
     func subscribe() {
         let urlSelected = contentView.tableView.rx.modelSelected(URL.self)
-        let input = DownloadingListViewModel.Input(viewWillAppear: self.rx.viewWillAppear.asDriver(),
+        let input = DownloadedListViewModel.Input(viewWillAppear: self.rx.viewWillAppear.asDriver(),
                                                    urlSelected: urlSelected.asDriver(),
                                                    playAllButtonTapped: contentView.playAllButton.rx.tap.asDriver())
         let output = viewModel.translate(input)

@@ -14,6 +14,7 @@ struct VoicyResponse: Codable {
         let articleTitle: String
         let mediaName: String
         let voiceFile: String
+        let voiceDuration: Int
         var voiceIndex: Int?
         var speakerName: String?
         var playlistName: String?
@@ -22,6 +23,7 @@ struct VoicyResponse: Codable {
             case articleTitle = "ArticleTitle"
             case mediaName = "MediaName"
             case voiceFile = "VoiceFile"
+            case voiceDuration = "VoiceDuration"
             case voiceIndex
             case speakerName
             case playlistName
