@@ -29,6 +29,7 @@ class AudioPlayer: NSObject {
     private func play(_ url: URL) {
         player = try? AVAudioPlayer(contentsOf: URL(fileURLWithPath: url.path), fileTypeHint: url.pathExtension)
         guard let player = player else { return }
+        player.delegate = self
         player.prepareToPlay()
         player.play()
     }

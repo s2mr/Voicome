@@ -52,7 +52,8 @@ class DownloadedListViewController: UIViewController {
     func subscribe() {
         let urlSelected = contentView.tableView.rx.modelSelected(URL.self)
         let input = DownloadingListViewModel.Input(viewWillAppear: self.rx.viewWillAppear.asDriver(),
-                                                   urlSelected: urlSelected.asDriver())
+                                                   urlSelected: urlSelected.asDriver(),
+                                                   playAllButtonTapped: contentView.playAllButton.rx.tap.asDriver())
         let output = viewModel.translate(input)
 
         output.items.asDriver().drive(contentView.tableView.rx.items)  { (tableView, row, url) -> UITableViewCell in
@@ -63,10 +64,14 @@ class DownloadedListViewController: UIViewController {
             } else {
                 cell.textLabel?.text = fileName
             }
-
             cell.textLabel!.numberOfLines = -1
             return cell
         }.disposed(by: disposeBag)
+
+        output.audioDirectorySubject.subscribe(onNext: { [weak self] isAudioDirectory in
+            guard let me = self else { return }
+            me.navigationItem.setRightBarButton(isAudioDirectory ? me.contentView.playAllButton : nil, animated: true)
+        }).disposed(by: disposeBag)
 
 //        contentView.tableView.rx.modelSelected(URL.self)
 //            .map { url -> Optional<URL> in

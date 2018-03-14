@@ -15,6 +15,11 @@ class DownloaedListView: UIView {
         return v
     }()
 
+    let playAllButton: UIBarButtonItem = {
+        let b = UIBarButtonItem(title: "▶", style: .plain, target: nil, action: nil)
+        return b
+    }()
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         commonInit()
