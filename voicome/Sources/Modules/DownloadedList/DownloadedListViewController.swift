@@ -8,11 +8,12 @@
 
 import UIKit
 import RxSwift
+import AVFoundation
 
 class DownloadedListViewController: UIViewController {
 
-    static func instanciate() -> DownloadedListViewController {
-        return DownloadedListViewController(viewModel: DownloadingListViewModel())
+    static func instanciate(url: URL) -> DownloadedListViewController {
+        return DownloadedListViewController(viewModel: DownloadingListViewModel(url: url))
     }
 
     private let contentView: DownloaedListView = {
@@ -22,10 +23,10 @@ class DownloadedListViewController: UIViewController {
 
     private let viewModel: DownloadingListViewModel
     private let disposeBag = DisposeBag()
+    private var player: AVAudioPlayer!
 
     init(viewModel: DownloadingListViewModel) {
         self.viewModel = viewModel
-
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -49,7 +50,9 @@ class DownloadedListViewController: UIViewController {
     }
 
     func subscribe() {
-        let input = DownloadingListViewModel.Input(viewWillAppear: self.rx.viewWillAppear.asDriver())
+        let urlSelected = contentView.tableView.rx.modelSelected(URL.self)
+        let input = DownloadingListViewModel.Input(viewWillAppear: self.rx.viewWillAppear.asDriver(),
+                                                   urlSelected: urlSelected.asDriver())
         let output = viewModel.translate(input)
 
         output.items.asDriver().drive(contentView.tableView.rx.items)  { (tableView, row, url) -> UITableViewCell in
@@ -59,18 +62,26 @@ class DownloadedListViewController: UIViewController {
             return cell
         }.disposed(by: disposeBag)
 
-        contentView.tableView.rx.modelSelected(URL.self)
-            .map { url -> Optional<URL> in
-                var res: URL = url
-                while let url = try? FileManager.default.contentsOfDirectory(at: res, includingPropertiesForKeys: nil, options: [.skipsHiddenFiles]).first {
-                    if let url = url {
-                        res = url
-                    }
-                }
-                return res
-            }
-            .subscribe(onNext: { url in
-                print(url)
-            }).disposed(by: disposeBag)
+//        contentView.tableView.rx.modelSelected(URL.self)
+//            .map { url -> Optional<URL> in
+//                var res: URL = url
+//                while let url = try? FileManager.default.contentsOfDirectory(at: res, includingPropertiesForKeys: nil, options: [.skipsHiddenFiles]).first {
+//                    if let url = url {
+//                        res = url
+//                    }
+//                }
+//                return res
+//            }
+//            .subscribe(onNext: { [unowned self] url in
+//                print(url)
+//                guard let url = url else { return }
+//                do {
+//                    self.player = try AVAudioPlayer(contentsOf: URL(fileURLWithPath: url.path), fileTypeHint: url.pathExtension)
+//                    self.player.prepareToPlay()
+//                    self.player.play()
+//                } catch let e {
+//                    print(e)
+//                }
+
     }
 }

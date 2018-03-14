@@ -26,6 +26,7 @@ class AppRouter: Router {
         case userList
         case programList(user: User)
         case playlist(program: VoicyResponse.PlaylistData)
+        case downloadedList(url: URL)
     }
 
     static var shared = AppRouter()
@@ -38,7 +39,7 @@ class AppRouter: Router {
     }()
 
     private static var downloadedListTab: UINavigationController = {
-        let vc = DownloadedListViewController.instanciate()
+        let vc = DownloadedListViewController.instanciate(url: FileManager.default.urls(for: .libraryDirectory, in: .userDomainMask)[0].appendingPathComponent("/Downloaded"))
         vc.title = "Downloaded"
         let nc = UINavigationController(rootViewController: vc)
         return nc
@@ -62,6 +63,9 @@ class AppRouter: Router {
         case .playlist(let program):
             let vc = PlaylistViewController.instanciate(program: program)
             AppRouter.exploreTab.pushViewController(vc, animated: true)
+        case .downloadedList(let url):
+            let vc = DownloadedListViewController.instanciate(url: url)
+            AppRouter.downloadedListTab.pushViewController(vc, animated: true)
         }
     }
 }

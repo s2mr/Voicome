@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		6E4EEE332057F5A8000E5517 /* PlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E4EEE322057F5A8000E5517 /* PlayerView.swift */; };
+		6E4EEE3620592712000E5517 /* AudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E4EEE3520592712000E5517 /* AudioPlayer.swift */; };
 		6E68563A2054204700A5AA5B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E6856392054204700A5AA5B /* AppDelegate.swift */; };
 		6E68563C2054204700A5AA5B /* UserListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E68563B2054204700A5AA5B /* UserListViewController.swift */; };
 		6E6856412054204800A5AA5B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6E6856402054204800A5AA5B /* Assets.xcassets */; };
@@ -43,6 +44,7 @@
 		5366FAAFFE3EC1AD0CAEC195 /* Pods-voicome.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-voicome.debug.xcconfig"; path = "Pods/Target Support Files/Pods-voicome/Pods-voicome.debug.xcconfig"; sourceTree = "<group>"; };
 		6C35DAE37ECBF3508D225621 /* Pods_voicome.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_voicome.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E4EEE322057F5A8000E5517 /* PlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerView.swift; sourceTree = "<group>"; };
+		6E4EEE3520592712000E5517 /* AudioPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayer.swift; sourceTree = "<group>"; };
 		6E6856362054204700A5AA5B /* voicome.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = voicome.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E6856392054204700A5AA5B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6E68563B2054204700A5AA5B /* UserListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserListViewController.swift; sourceTree = "<group>"; };
@@ -98,6 +100,7 @@
 			isa = PBXGroup;
 			children = (
 				6E4EEE322057F5A8000E5517 /* PlayerView.swift */,
+				6E4EEE3520592712000E5517 /* AudioPlayer.swift */,
 			);
 			path = Player;
 			sourceTree = "<group>";
@@ -399,6 +402,7 @@
 				6E6856592054AEBA00A5AA5B /* ProgramListViewController.swift in Sources */,
 				6E6856762054B4CB00A5AA5B /* DownloaedListView.swift in Sources */,
 				6E68563A2054204700A5AA5B /* AppDelegate.swift in Sources */,
+				6E4EEE3620592712000E5517 /* AudioPlayer.swift in Sources */,
 				6E6856502054AC9300A5AA5B /* PlaylistViewController.swift in Sources */,
 				6E68568A20567ED600A5AA5B /* TabBarController.swift in Sources */,
 				6E6856702054B4A600A5AA5B /* PlaylistView.swift in Sources */,

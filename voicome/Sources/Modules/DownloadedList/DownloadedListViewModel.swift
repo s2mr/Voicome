@@ -14,13 +14,23 @@ class DownloadingListViewModel {
 
     private let items: BehaviorRelay<[URL]>
     private let disposeBag = DisposeBag()
+    private let fileManager = FileManager.default
 
-    init() {
-        items = BehaviorRelay(value: [])
+    init(url: URL) {
+        var urls: [URL] = []
+        do {
+            urls = try fileManager.contentsOfDirectory(at: url,
+                                                   includingPropertiesForKeys: nil,
+                                                   options: [.skipsHiddenFiles])
+        } catch let e {
+            print(e)
+        }
+        items = BehaviorRelay(value: urls)
     }
 
     struct Input {
         let viewWillAppear: Driver<Void>
+        let urlSelected: Driver<URL>
     }
 
     struct Output {
@@ -29,20 +39,10 @@ class DownloadingListViewModel {
 
     func translate(_ input: Input) -> Output {
         input.viewWillAppear.drive(onNext: {
-            let manager = FileManager.default
-            let directory = manager.urls(for: .libraryDirectory, in: .userDomainMask)[0]
-            print(directory.absoluteString)
+        }).disposed(by: disposeBag)
 
-            var urls: [URL] = []
-            do {
-                urls = try manager.contentsOfDirectory(at: directory.appendingPathComponent("/Downloaded"),
-                                                       includingPropertiesForKeys: nil,
-                                                       options: [.skipsHiddenFiles])
-            } catch let e {
-                print(e)
-            }
-
-            self.items.accept(urls)
+        input.urlSelected.drive(onNext: { url in
+            AppRouter.shared.route(to: .downloadedList(url: url), from: nil)
         }).disposed(by: disposeBag)
 
         return Output(items: items)
