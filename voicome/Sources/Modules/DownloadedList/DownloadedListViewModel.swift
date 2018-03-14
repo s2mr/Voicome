@@ -26,6 +26,9 @@ class DownloadingListViewModel {
         } catch let e {
             print(e)
         }
+        urls = urls.sorted { (u1, u2) -> Bool in
+            return u1.lastPathComponent < u2.lastPathComponent
+        }
         items = BehaviorRelay(value: urls)
 
         if let url = urls.first {

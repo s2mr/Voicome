@@ -7,10 +7,54 @@
 //
 
 import UIKit
+import RxSwift
 
 class DownloadingListViewController: UIViewController {
 
+    static func instanciate() -> DownloadingListViewController {
+        let vc = DownloadingListViewController()
+        return vc
+    }
+
+    private let contentView: DownloadingListView = {
+        let v = DownloadingListView(frame: .zero)
+        return v
+    }()
+
+    private let disposeBag = DisposeBag()
+
+    private init() {
+        print("[INIT]DownloadingListViewController")
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    deinit {
+        print("[DEINIT]DownloadingListViewController")
+    }
+
+    override func loadView() {
+        super.loadView()
+
+        self.view.addSubview(contentView)
+        contentView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        subscribe()
+    }
+
+    func subscribe() {
+        contentView.backButton.rx.tap.subscribe(onNext: { [weak self] in
+            guard let me = self else { return }
+            me.dismiss(animated: true, completion: nil)
+        })
     }
 }

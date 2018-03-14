@@ -22,7 +22,7 @@ class UserListViewController: UIViewController {
     private let contentView = UserListView(frame: .zero)
     private let disposeBag = DisposeBag()
 
-    init(viewModel: UserListViewModel) {
+    private init(viewModel: UserListViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }

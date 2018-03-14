@@ -7,8 +7,11 @@
 //
 
 import UIKit
+import RxSwift
 
 class TabBarController: UITabBarController {
+
+    private let disposeBag = DisposeBag()
 
     private let showDonloadingListButton: UIButton = {
         let v = UIButton(frame: .zero)
@@ -24,25 +27,40 @@ class TabBarController: UITabBarController {
         return v
     }()
 
+    let downloadingListViewController: DownloadingListViewController = {
+        let vc = DownloadingListViewController.instanciate()
+        return vc
+    }()
+
     override func loadView() {
         super.loadView()
+
+        self.view.addSubview(playerView)
+        playerView.snp.makeConstraints { [weak self] in
+            guard let me = self else { return }
+            $0.width.equalToSuperview()
+            $0.height.equalTo(50)
+            $0.bottom.equalTo(me.tabBar.snp.top)
+        }
 
         self.view.addSubview(showDonloadingListButton)
         showDonloadingListButton.snp.makeConstraints {
             $0.right.equalToSuperview().offset(-20)
-            $0.bottom.equalToSuperview().offset(-100)
+            $0.bottom.equalTo(self.playerView.snp.top).offset(-8)
             $0.size.equalTo(60)
-        }
-
-        self.view.addSubview(playerView)
-        playerView.snp.makeConstraints { [weak self] in
-            $0.width.equalToSuperview()
-            $0.height.equalTo(30)
-            $0.bottom.equalToSuperview().offset(-40)
         }
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        subscribe()
+    }
+
+    private func subscribe() {
+        showDonloadingListButton.rx.tap.subscribe(onNext: { [weak self] in
+            guard let me = self else { return }
+            me.present(me.downloadingListViewController, animated: true)
+        }).disposed(by: disposeBag)
     }
 }

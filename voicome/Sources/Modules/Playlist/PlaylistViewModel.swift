@@ -70,6 +70,7 @@ class PlaylistViewModel {
             for v in voiceDatas.value {
                 VoiProvider.rx.requestWithProgress(.voiceData(voice: v), callbackQueue: nil)
                     .subscribe(onNext: { (r) in
+                        print(r.progress)
                     }, onError: { (e) in
                         print(e.localizedDescription)
                     }, onCompleted: {

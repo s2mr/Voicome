@@ -24,7 +24,7 @@ class PlaylistViewController: UIViewController {
     private let viewModel: PlaylistViewModel
     private let disposeBag: DisposeBag = DisposeBag()
 
-    init(viewModel: PlaylistViewModel) {
+    private init(viewModel: PlaylistViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }

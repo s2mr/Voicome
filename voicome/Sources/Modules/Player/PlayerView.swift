@@ -10,11 +10,11 @@ import UIKit
 
 class PlayerView: UIView {
 
-    var changePlayStateButton: UIButton {
+    var changePlayStateButton: UIButton = {
         let v = UIButton(frame: CGRect(x: 8, y: 8, width: 20, height: 20))
         v.setTitle("▶", for: .normal)
         return v
-    }
+    }()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -33,16 +33,10 @@ class PlayerView: UIView {
     }
 
     private func setupLayout() {
-//        self.snp.makeConstraints {
-//            $0.width.equalToSuperview()
-//            $0.height.equalTo(30)
-//            $0.bottom.equalToSuperview().offset(-30)
-//        }
-
         self.addSubview(changePlayStateButton)
-//        changePlayStateButton.snp.makeConstraints {
-//            $0.top.left.bottom.equalTo(4)
-//            $0.width.equalTo(40)
-//        }
+        changePlayStateButton.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.left.equalToSuperview().offset(8)
+        }
     }
 }

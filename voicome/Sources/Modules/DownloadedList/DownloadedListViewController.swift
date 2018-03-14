@@ -25,7 +25,7 @@ class DownloadedListViewController: UIViewController {
     private let disposeBag = DisposeBag()
     private var player: AVAudioPlayer!
 
-    init(viewModel: DownloadingListViewModel) {
+    private init(viewModel: DownloadingListViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }

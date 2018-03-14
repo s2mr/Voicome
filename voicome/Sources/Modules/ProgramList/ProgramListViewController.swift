@@ -22,7 +22,7 @@ class ProgramListViewController: UIViewController {
 
     private let contentView = ProgramListView(frame: .zero)
 
-    init(viewModel: ProgramListViewModel) {
+    private init(viewModel: ProgramListViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
