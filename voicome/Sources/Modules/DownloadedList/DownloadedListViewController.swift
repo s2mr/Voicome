@@ -57,7 +57,13 @@ class DownloadedListViewController: UIViewController {
 
         output.items.asDriver().drive(contentView.tableView.rx.items)  { (tableView, row, url) -> UITableViewCell in
             let cell = UITableViewCell(style: .default, reuseIdentifier: nil)
-            cell.textLabel!.text = url.lastPathComponent
+            let fileName = url.lastPathComponent
+            if let range = fileName.range(of: ".\(url.pathExtension)") {
+                cell.textLabel?.text = String(fileName[fileName.startIndex..<range.lowerBound])
+            } else {
+                cell.textLabel?.text = fileName
+            }
+
             cell.textLabel!.numberOfLines = -1
             return cell
         }.disposed(by: disposeBag)
