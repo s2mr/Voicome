@@ -31,6 +31,7 @@ class AudioPlayer: NSObject {
     }
     let  currentPlayUrl: PublishSubject<URL>
     private var playlistNextIndex = 0
+    private let disposeBag = DisposeBag()
 
     static let shared = AudioPlayer()
 
@@ -40,11 +41,24 @@ class AudioPlayer: NSObject {
         self.currentPlayUrl = PublishSubject()
         super.init()
 
+        subscribe()
         setup()
 //        playPosition.
     }
 
-    func setup() {
+    private func subscribe() {
+        state.subscribe(onNext: { [weak self] s in
+            guard let me = self else { return }
+            switch s {
+            case .playing:
+                me.play()
+            case .stop:
+                me.stop()
+            }
+        }).disposed(by: disposeBag)
+    }
+
+    private func setup() {
         let session = AVAudioSession.sharedInstance()
         do {
             try session.setCategory(AVAudioSessionCategoryPlayback)
@@ -64,11 +78,22 @@ class AudioPlayer: NSObject {
     func playNext() {
         if playlistNextIndex + 1 < playlist.count {
             playlistNextIndex += 1
+            play()
+        } else {
+            stop()
         }
-        play(playlist[playlistNextIndex])
     }
 
-    func play() {
+    func playOrStop() {
+        switch state.value {
+        case .playing:
+            state.accept(.stop)
+        case .stop:
+            state.accept(.playing)
+        }
+    }
+
+    private func play() {
         play(playlist[playlistNextIndex])
     }
 

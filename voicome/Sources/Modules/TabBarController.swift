@@ -64,7 +64,7 @@ class TabBarController: UITabBarController {
         }).disposed(by: disposeBag)
 
         playerView.changePlayStateButton.rx.tap.subscribe(onNext: {
-
+            AudioPlayer.shared.playOrStop()
         }).disposed(by: disposeBag)
 
         playerView.playPrevButton.rx.tap.subscribe(onNext: {
@@ -80,6 +80,18 @@ class TabBarController: UITabBarController {
         AudioPlayer.shared.currentPlayUrl
             .map { $0.lastPathComponent }
             .bind(to: playerView.playingTitleLabel.rx.text)
+            .disposed(by: disposeBag)
+
+        AudioPlayer.shared.state
+            .map { s in
+                switch s {
+                case .playing:
+                    return "||"
+                case .stop:
+                    return "▶"
+                }
+            }
+            .bind(to: playerView.changePlayStateButton.rx.title(for: .normal))
             .disposed(by: disposeBag)
 
     }

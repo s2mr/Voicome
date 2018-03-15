@@ -68,7 +68,7 @@ class DownloadedListViewModel {
             .withLatestFrom(items.asDriver())
             .drive(onNext: { urls in
                 AudioPlayer.shared.playlist = urls
-                AudioPlayer.shared.play()
+                AudioPlayer.shared.state.accept(.playing)
             }).disposed(by: disposeBag)
 
         return Output(items: items, audioDirectorySubject: audioDirectorySubject)
