@@ -8,31 +8,67 @@
 
 import Foundation
 import AVFoundation
+import RxSwift
+import RxCocoa
 
 class AudioPlayer: NSObject {
 
+    enum State {
+        case playing
+        case stop
+    }
+
     private var player: AVAudioPlayer?
+    let state: BehaviorRelay<State>
     var playlist: [URL] {
         didSet {
             playlistNextIndex = 0
         }
     }
+    var playPosition: Double? {
+        guard let player = player else { return nil}
+        return player.currentTime / player.duration
+    }
+    let  currentPlayUrl: PublishSubject<URL>
     private var playlistNextIndex = 0
 
     static let shared = AudioPlayer()
 
     private override init() {
         self.playlist = []
+        self.state = BehaviorRelay(value: .stop)
+        self.currentPlayUrl = PublishSubject()
         super.init()
+
+//        playPosition.
+    }
+
+    func playPrev() {
+        if playlistNextIndex - 1 >= 0 {
+            playlistNextIndex -= 1
+        }
+        play(playlist[playlistNextIndex])
+    }
+
+    func playNext() {
+        if playlistNextIndex + 1 < playlist.count {
+            playlistNextIndex += 1
+        }
+        play(playlist[playlistNextIndex])
     }
 
     func play() {
         play(playlist[playlistNextIndex])
     }
 
+    private func stop() {
+        player?.stop()
+    }
+
     private func play(_ url: URL) {
         player = try? AVAudioPlayer(contentsOf: URL(fileURLWithPath: url.path), fileTypeHint: url.pathExtension)
         guard let player = player else { return }
+        currentPlayUrl.onNext(url)
         player.delegate = self
         player.prepareToPlay()
         player.play()
@@ -41,8 +77,6 @@ class AudioPlayer: NSObject {
 
 extension AudioPlayer: AVAudioPlayerDelegate {
     func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
-        playlistNextIndex += 1
-        if playlistNextIndex >= playlist.count+1 { return }
-        play(playlist[playlistNextIndex])
+        playNext()
     }
 }

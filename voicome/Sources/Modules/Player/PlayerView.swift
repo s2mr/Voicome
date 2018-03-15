@@ -10,9 +10,29 @@ import UIKit
 
 class PlayerView: UIView {
 
-    var changePlayStateButton: UIButton = {
-        let v = UIButton(frame: CGRect(x: 8, y: 8, width: 20, height: 20))
+    let changePlayStateButton: UIButton = {
+        let v = UIButton(frame: .zero)
         v.setTitle("▶", for: .normal)
+        return v
+    }()
+
+    let playingTitleLabel: UILabel = {
+        let v = UILabel(frame: .zero)
+        v.textColor = .white
+        v.numberOfLines = 0
+        v.font = UIFont.systemFont(ofSize: 14.0, weight: .light)
+        return v
+    }()
+
+    let playPrevButton: UIButton = {
+        let v = UIButton(frame: .zero)
+        v.setTitle("<", for: .normal)
+        return v
+    }()
+
+    let playNextButton: UIButton = {
+        let v = UIButton(frame: .zero)
+        v.setTitle(">", for: .normal)
         return v
     }()
 
@@ -37,6 +57,29 @@ class PlayerView: UIView {
         changePlayStateButton.snp.makeConstraints {
             $0.centerY.equalToSuperview()
             $0.left.equalToSuperview().offset(8)
+            $0.width.equalTo(20)
+        }
+
+        self.addSubview(playNextButton)
+        playNextButton.snp.makeConstraints {
+            $0.right.equalToSuperview().offset(-8)
+            $0.centerY.equalToSuperview()
+            $0.width.equalTo(10)
+        }
+
+        self.addSubview(playPrevButton)
+        playPrevButton.snp.makeConstraints {
+            $0.right.equalTo(playNextButton.snp.left).offset(-8)
+            $0.centerY.equalToSuperview()
+            $0.width.equalTo(10)
+        }
+        playPrevButton.sizeToFit()
+
+        self.addSubview(playingTitleLabel)
+        playingTitleLabel.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.left.equalTo(changePlayStateButton.snp.right).offset(8)
+            $0.right.equalTo(playPrevButton.snp.left).offset(-8)
         }
     }
 }

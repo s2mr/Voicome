@@ -62,5 +62,25 @@ class TabBarController: UITabBarController {
             guard let me = self else { return }
             me.present(me.downloadingListViewController, animated: true)
         }).disposed(by: disposeBag)
+
+        playerView.changePlayStateButton.rx.tap.subscribe(onNext: {
+
+        }).disposed(by: disposeBag)
+
+        playerView.playPrevButton.rx.tap.subscribe(onNext: {
+            AudioPlayer.shared.playPrev()
+        }).disposed(by: disposeBag)
+
+        playerView.playNextButton.rx.tap.subscribe(onNext: {
+            AudioPlayer.shared.playNext()
+        }).disposed(by: disposeBag)
+
+//        AudioPlayer.shared.state
+
+        AudioPlayer.shared.currentPlayUrl
+            .map { $0.lastPathComponent }
+            .bind(to: playerView.playingTitleLabel.rx.text)
+            .disposed(by: disposeBag)
+
     }
 }
