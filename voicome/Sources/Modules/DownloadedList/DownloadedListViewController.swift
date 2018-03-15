@@ -16,8 +16,8 @@ class DownloadedListViewController: UIViewController {
         return DownloadedListViewController(viewModel: DownloadedListViewModel(url: url))
     }
 
-    private let contentView: DownloaedListView = {
-        let v = DownloaedListView(frame: .zero)
+    private let contentView: DownloadedListView = {
+        let v = DownloadedListView(frame: .zero)
         return v
     }()
 

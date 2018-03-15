@@ -1,5 +1,5 @@
 //
-//  DownloaedListView.swift
+//  DownloadedListView.swift
 //  voicome
 //
 //  Created by 下村一将 on 2018/03/11.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DownloaedListView: UIView {
+class DownloadedListView: UIView {
 
     let tableView: UITableView = {
         let v = UITableView(frame: .zero)

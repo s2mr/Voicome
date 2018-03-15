@@ -89,6 +89,8 @@ class TabBarController: UITabBarController {
                     return "||"
                 case .stop:
                     return "▶"
+                case .resume:
+                    return "||"
                 }
             }
             .bind(to: playerView.changePlayStateButton.rx.title(for: .normal))

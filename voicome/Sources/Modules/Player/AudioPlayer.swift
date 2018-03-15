@@ -8,6 +8,7 @@
 
 import Foundation
 import AVFoundation
+import MediaPlayer
 import RxSwift
 import RxCocoa
 
@@ -16,6 +17,7 @@ class AudioPlayer: NSObject {
     enum State {
         case playing
         case stop
+        case resume
     }
 
     private var player: AVAudioPlayer?
@@ -54,6 +56,8 @@ class AudioPlayer: NSObject {
                 me.play()
             case .stop:
                 me.stop()
+            case .resume:
+                me.resume()
             }
         }).disposed(by: disposeBag)
     }
@@ -65,6 +69,38 @@ class AudioPlayer: NSObject {
             try session.setActive(true)
         } catch let e {
             print(e)
+        }
+
+        let commandCenter = MPRemoteCommandCenter.shared()
+        commandCenter.togglePlayPauseCommand.addTarget { [weak self] (e) -> MPRemoteCommandHandlerStatus in
+            // eyephone center button pushed
+            guard let me = self else { return .commandFailed }
+            me.playOrStop()
+            return .success
+        }
+
+        commandCenter.playCommand.addTarget { [weak self] (e) -> MPRemoteCommandHandlerStatus in
+            guard let me = self else { return .commandFailed }
+            me.state.accept(.playing)
+            return .success
+        }
+
+        commandCenter.pauseCommand.addTarget { [weak self] (e) -> MPRemoteCommandHandlerStatus in
+            guard let me = self else { return .commandFailed }
+            me.state.accept(.stop)
+            return .success
+        }
+
+        commandCenter.previousTrackCommand.addTarget { [weak self] (e) -> MPRemoteCommandHandlerStatus in
+            guard let me = self else { return .commandFailed }
+            me.playPrev()
+            return .success
+        }
+
+        commandCenter.nextTrackCommand.addTarget { [weak self] (e) -> MPRemoteCommandHandlerStatus in
+            guard let me = self else { return .commandFailed }
+            me.playNext()
+            return .success
         }
     }
 
@@ -89,7 +125,9 @@ class AudioPlayer: NSObject {
         case .playing:
             state.accept(.stop)
         case .stop:
-            state.accept(.playing)
+            state.accept(.resume)
+        case .resume:
+            state.accept(.stop)
         }
     }
 
@@ -98,7 +136,11 @@ class AudioPlayer: NSObject {
     }
 
     private func stop() {
-        player?.stop()
+        player?.pause()
+    }
+
+    private func resume() {
+        player?.play()
     }
 
     private func play(_ url: URL) {
