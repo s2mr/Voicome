@@ -78,25 +78,21 @@ class AudioPlayer: NSObject {
             me.playOrStop()
             return .success
         }
-
         commandCenter.playCommand.addTarget { [weak self] (e) -> MPRemoteCommandHandlerStatus in
             guard let me = self else { return .commandFailed }
-            me.state.accept(.playing)
+            me.state.accept(.resume)
             return .success
         }
-
         commandCenter.pauseCommand.addTarget { [weak self] (e) -> MPRemoteCommandHandlerStatus in
             guard let me = self else { return .commandFailed }
             me.state.accept(.stop)
             return .success
         }
-
         commandCenter.previousTrackCommand.addTarget { [weak self] (e) -> MPRemoteCommandHandlerStatus in
             guard let me = self else { return .commandFailed }
             me.playPrev()
             return .success
         }
-
         commandCenter.nextTrackCommand.addTarget { [weak self] (e) -> MPRemoteCommandHandlerStatus in
             guard let me = self else { return .commandFailed }
             me.playNext()
@@ -146,6 +142,8 @@ class AudioPlayer: NSObject {
     private func play(_ url: URL) {
         player = try? AVAudioPlayer(contentsOf: URL(fileURLWithPath: url.path), fileTypeHint: url.pathExtension)
         guard let player = player else { return }
+        let infoCenter = MPNowPlayingInfoCenter.default()
+        infoCenter.nowPlayingInfo = [MPMediaItemPropertyTitle: url.lastPathComponent]
         currentPlayUrl.onNext(url)
         player.delegate = self
         player.prepareToPlay()
