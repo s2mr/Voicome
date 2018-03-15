@@ -26,13 +26,13 @@ class PlayerView: UIView {
 
     let playPrevButton: UIButton = {
         let v = UIButton(frame: .zero)
-        v.setTitle("<", for: .normal)
+        v.setTitle("←", for: .normal)
         return v
     }()
 
     let playNextButton: UIButton = {
         let v = UIButton(frame: .zero)
-        v.setTitle(">", for: .normal)
+        v.setTitle("→", for: .normal)
         return v
     }()
 
@@ -62,16 +62,16 @@ class PlayerView: UIView {
 
         self.addSubview(playNextButton)
         playNextButton.snp.makeConstraints {
-            $0.right.equalToSuperview().offset(-8)
+            $0.right.equalToSuperview().offset(-16)
             $0.centerY.equalToSuperview()
-            $0.width.equalTo(10)
+            $0.width.equalTo(20)
         }
 
         self.addSubview(playPrevButton)
         playPrevButton.snp.makeConstraints {
             $0.right.equalTo(playNextButton.snp.left).offset(-8)
             $0.centerY.equalToSuperview()
-            $0.width.equalTo(10)
+            $0.width.equalTo(20)
         }
         playPrevButton.sizeToFit()
 

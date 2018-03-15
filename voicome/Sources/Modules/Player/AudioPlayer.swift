@@ -40,7 +40,18 @@ class AudioPlayer: NSObject {
         self.currentPlayUrl = PublishSubject()
         super.init()
 
+        setup()
 //        playPosition.
+    }
+
+    func setup() {
+        let session = AVAudioSession.sharedInstance()
+        do {
+            try session.setCategory(AVAudioSessionCategoryPlayback)
+            try session.setActive(true)
+        } catch let e {
+            print(e)
+        }
     }
 
     func playPrev() {
