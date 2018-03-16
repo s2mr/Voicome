@@ -15,7 +15,7 @@ class TabBarController: UITabBarController {
 
     private let showDonloadingListButton: UIButton = {
         let v = UIButton(frame: .zero)
-        v.setTitle("Downloading", for: .normal)
+        v.setTitle("N/A", for: .normal)
         v.layer.cornerRadius = 30
         v.layer.masksToBounds = true
         v.backgroundColor = .blue
@@ -62,6 +62,15 @@ class TabBarController: UITabBarController {
             guard let me = self else { return }
             me.present(me.downloadingListViewController, animated: true)
         }).disposed(by: disposeBag)
+
+        downloadingListViewController.viewModel.voices
+            .map { [weak self] voices -> String in
+                guard let me = self else { return "" }
+                me.showDonloadingListButton.isHidden = !(voices.count>0)
+                return "\(voices.count)"
+            }
+            .bind(to: showDonloadingListButton.rx.title(for: .normal))
+            .disposed(by: disposeBag)
 
         playerView.changePlayStateButton.rx.tap.subscribe(onNext: {
             AudioPlayer.shared.playOrStop()

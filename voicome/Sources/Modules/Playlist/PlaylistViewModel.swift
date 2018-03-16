@@ -69,7 +69,7 @@ class PlaylistViewModel {
     func translate(_ action: Action) {
         switch action {
         case .download(let voices):
-            AppRouter.shared.rootViewController.downloadingListViewController.viewModel.voices.onNext(voices)
+            AppRouter.shared.rootViewController.downloadingListViewController.viewModel.voices.accept(voices)
         }
     }
 }
