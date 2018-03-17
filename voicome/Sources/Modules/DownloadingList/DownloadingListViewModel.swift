@@ -26,6 +26,11 @@ class DownloadingListViewModel {
         }).disposed(by: disposeBag)
     }
 
+    func appendVoices(_ voices: [VoicyResponse.VoiceData]) {
+        let new = self.voices.value + voices
+        self.voices.accept(new)
+    }
+
     private func download(voice: VoicyResponse.VoiceData) {
         VoiProvider.rx.requestWithProgress(.voiceData(voice: voice), callbackQueue: nil)
             .map { ($0, voice) }

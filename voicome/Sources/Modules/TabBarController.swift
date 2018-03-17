@@ -18,11 +18,12 @@ class TabBarController: UITabBarController {
         v.setTitle("N/A", for: .normal)
         v.layer.cornerRadius = 30
         v.layer.masksToBounds = true
-        v.backgroundColor = .blue
+        v.backgroundColor = .black
+        v.setTitleColor(.white, for: .normal)
         return v
     }()
 
-    private let playerView: PlayerView = {
+    let playerView: PlayerView = {
         let v = PlayerView(frame: .zero)
         return v
     }()
@@ -71,6 +72,13 @@ class TabBarController: UITabBarController {
             }
             .bind(to: showDonloadingListButton.rx.title(for: .normal))
             .disposed(by: disposeBag)
+
+        let tap = UITapGestureRecognizer(target: nil, action: nil)
+        tap.rx.event.subscribe(onNext: { [weak self] _ in
+            guard let me = self else { return }
+            AppRouter.shared.route(to: .player, from: me)
+        }).disposed(by: disposeBag)
+        playerView.addGestureRecognizer(tap)
 
         playerView.changePlayStateButton.rx.tap.subscribe(onNext: {
             AudioPlayer.shared.playOrStop()

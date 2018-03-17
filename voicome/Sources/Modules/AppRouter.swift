@@ -27,6 +27,7 @@ class AppRouter: Router {
         case programList(user: User)
         case playlist(program: VoicyResponse.PlaylistData)
         case downloadedList(url: URL)
+        case player
     }
 
     static var shared = AppRouter()
@@ -66,6 +67,9 @@ class AppRouter: Router {
         case .downloadedList(let url):
             let vc = DownloadedListViewController.instanciate(url: url)
             AppRouter.downloadedListTab.pushViewController(vc, animated: true)
+        case .player:
+            let vc = PlayerViewController.instanciate(playerView: rootViewController.playerView)
+            rootViewController.present(vc, animated: true)
         }
     }
 }
