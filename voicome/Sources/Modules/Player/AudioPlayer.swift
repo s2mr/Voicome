@@ -28,8 +28,9 @@ class AudioPlayer: NSObject {
     }
     let playingPosition = PublishSubject<Double>()
     let currentTime = PublishSubject<String>()
+    let currentTimeInput = PublishSubject<Double>()
     let totalTime = ReplaySubject<String>.create(bufferSize: 1)
-    let  currentPlayUrl = PublishSubject<URL>()
+    let currentPlayUrl = PublishSubject<URL>()
     private var player: AVAudioPlayer?
     private var playlistNextIndex = 0
     private let disposeBag = DisposeBag()
@@ -56,6 +57,11 @@ class AudioPlayer: NSObject {
             case .resume:
                 me.resume()
             }
+        }).disposed(by: disposeBag)
+
+        currentTimeInput.subscribe(onNext: { [weak self] per in
+            guard let me = self, let player = me.player else { return }
+            player.currentTime = player.duration * per
         }).disposed(by: disposeBag)
     }
 

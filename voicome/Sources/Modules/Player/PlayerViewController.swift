@@ -60,6 +60,11 @@ class PlayerViewController: UIViewController {
             me.dismiss(animated: true)
         }).disposed(by: disposeBag)
 
+        headerView.playingPositionSlider.rx.value
+            .map { Double($0) }
+            .bind(to: AudioPlayer.shared.currentTimeInput)
+            .disposed(by: disposeBag)
+
         AudioPlayer.shared.playingPosition
             .map { Float($0) }
             .bind(to: headerView.playingPositionSlider.rx.value)
