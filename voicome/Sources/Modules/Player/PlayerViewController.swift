@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import RxSwift
 
 class PlayerViewController: UIViewController {
 
@@ -17,6 +18,7 @@ class PlayerViewController: UIViewController {
 
     let headerView: PlayerHeaderView
     let contentView: PlayerView
+    private let disposeBag = DisposeBag()
 
     init(playerView: PlayerView) {
         self.headerView = PlayerHeaderView(frame: .zero)
@@ -48,5 +50,14 @@ class PlayerViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        subscribe()
+    }
+
+    func subscribe() {
+        headerView.backButton.rx.tap.subscribe(onNext: { [weak self] in
+            guard let me = self else { return }
+            me.dismiss(animated: true)
+        }).disposed(by: disposeBag)
     }
 }

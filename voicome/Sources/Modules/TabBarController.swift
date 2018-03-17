@@ -35,6 +35,16 @@ class TabBarController: UITabBarController {
 
     override func loadView() {
         super.loadView()
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        subscribe()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
 
         self.view.addSubview(playerView)
         playerView.snp.makeConstraints { [weak self] in
@@ -50,12 +60,6 @@ class TabBarController: UITabBarController {
             $0.bottom.equalTo(self.playerView.snp.top).offset(-8)
             $0.size.equalTo(60)
         }
-    }
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        subscribe()
     }
 
     private func subscribe() {
@@ -79,6 +83,8 @@ class TabBarController: UITabBarController {
             AppRouter.shared.route(to: .player, from: me)
         }).disposed(by: disposeBag)
         playerView.addGestureRecognizer(tap)
+
+        
 
         playerView.changePlayStateButton.rx.tap.subscribe(onNext: {
             AudioPlayer.shared.playOrStop()

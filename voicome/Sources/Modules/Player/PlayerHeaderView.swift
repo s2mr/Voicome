@@ -16,7 +16,7 @@ class PlayerHeaderView: UIView {
         return v
     }()
 
-    private let backButton: UIButton = {
+    let backButton: UIButton = {
         let v = UIButton(frame: .zero)
         v.setTitle("Back", for: .normal)
         v.setTitleColor(.black, for: .normal)
