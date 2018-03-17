@@ -23,7 +23,19 @@ class PlayerHeaderView: UIView {
         return v
     }()
 
-    private let playingPositionSlider: UISlider = {
+    let currentTimeLabel: UILabel = {
+        let v = UILabel(frame: .zero)
+        v.text = "aaa"
+        return v
+    }()
+
+    let totalTimeLabel: UILabel = {
+        let v = UILabel(frame: .zero)
+        v.text = "bbb"
+        return v
+    }()
+
+    let playingPositionSlider: UISlider = {
         let v = UISlider(frame: .zero)
         return v
     }()
@@ -56,10 +68,22 @@ class PlayerHeaderView: UIView {
             $0.left.equalToSuperview().offset(15)
         }
 
+        self.addSubview(currentTimeLabel)
+        currentTimeLabel.snp.makeConstraints {
+            $0.top.equalTo(headerView.snp.bottom).offset(8)
+            $0.left.equalToSuperview().offset(8)
+        }
+
+        self.addSubview(totalTimeLabel)
+        totalTimeLabel.snp.makeConstraints {
+            $0.top.equalTo(headerView.snp.bottom).offset(8)
+            $0.right.equalToSuperview().offset(-8)
+        }
+
         self.addSubview(playingPositionSlider)
         playingPositionSlider.snp.makeConstraints {
             $0.width.equalToSuperview()
-            $0.top.equalTo(headerView.snp.bottom).offset(10)
+            $0.top.equalTo(currentTimeLabel.snp.bottom).offset(10)
         }
     }
 }

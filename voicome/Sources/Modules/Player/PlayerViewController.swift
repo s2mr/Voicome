@@ -59,5 +59,18 @@ class PlayerViewController: UIViewController {
             guard let me = self else { return }
             me.dismiss(animated: true)
         }).disposed(by: disposeBag)
+
+        AudioPlayer.shared.playingPosition
+            .map { Float($0) }
+            .bind(to: headerView.playingPositionSlider.rx.value)
+            .disposed(by: disposeBag)
+
+        AudioPlayer.shared.currentTime
+            .bind(to: headerView.currentTimeLabel.rx.text)
+            .disposed(by: disposeBag)
+
+        AudioPlayer.shared.totalTime
+            .bind(to: headerView.totalTimeLabel.rx.text)
+            .disposed(by: disposeBag)
     }
 }

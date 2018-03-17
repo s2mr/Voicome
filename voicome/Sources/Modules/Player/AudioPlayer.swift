@@ -20,18 +20,17 @@ class AudioPlayer: NSObject {
         case resume
     }
 
-    private var player: AVAudioPlayer?
     let state: BehaviorRelay<State>
     var playlist: [URL] {
         didSet {
             playlistNextIndex = 0
         }
     }
-    var playPosition: Double? {
-        guard let player = player else { return nil}
-        return player.currentTime / player.duration
-    }
-    let  currentPlayUrl: PublishSubject<URL>
+    let playingPosition = PublishSubject<Double>()
+    let currentTime = PublishSubject<String>()
+    let totalTime = ReplaySubject<String>.create(bufferSize: 1)
+    let  currentPlayUrl = PublishSubject<URL>()
+    private var player: AVAudioPlayer?
     private var playlistNextIndex = 0
     private let disposeBag = DisposeBag()
 
@@ -40,12 +39,10 @@ class AudioPlayer: NSObject {
     private override init() {
         self.playlist = []
         self.state = BehaviorRelay(value: .stop)
-        self.currentPlayUrl = PublishSubject()
         super.init()
 
         subscribe()
         setup()
-//        playPosition.
     }
 
     private func subscribe() {
@@ -98,6 +95,15 @@ class AudioPlayer: NSObject {
             me.playNext()
             return .success
         }
+
+        Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] (timer) in
+            guard let me = self, let player = me.player else { return }
+            let position = player.currentTime / player.duration
+            let min = Int(player.currentTime/60)
+            let sec = Int(player.currentTime) - (min * 60)
+            me.currentTime.onNext("\(min):\(sec)")
+            me.playingPosition.onNext(position)
+        }
     }
 
     func playPrev() {
@@ -144,6 +150,9 @@ class AudioPlayer: NSObject {
         guard let player = player else { return }
         let infoCenter = MPNowPlayingInfoCenter.default()
         infoCenter.nowPlayingInfo = [MPMediaItemPropertyTitle: url.lastPathComponent]
+        let min = Int(player.duration/60)
+        let sec = Int(player.duration) - (min * 60)
+        totalTime.onNext("\(min):\(sec)")
         currentPlayUrl.onNext(url)
         player.delegate = self
         player.prepareToPlay()
