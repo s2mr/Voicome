@@ -23,6 +23,13 @@ class PlayerHeaderView: UIView {
         return v
     }()
 
+    let clearPlaylistButton: UIButton = {
+        let v = UIButton(frame: .zero)
+        v.setTitle("Clear", for: .normal)
+        v.setTitleColor(.black, for: .normal)
+        return v
+    }()
+
     let currentTimeLabel: UILabel = {
         let v = UILabel(frame: .zero)
         v.text = "aaa"
@@ -66,6 +73,12 @@ class PlayerHeaderView: UIView {
         backButton.snp.makeConstraints {
             $0.centerY.equalToSuperview()
             $0.left.equalToSuperview().offset(15)
+        }
+
+        headerView.addSubview(clearPlaylistButton)
+        clearPlaylistButton.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.right.equalToSuperview().offset(-15)
         }
 
         self.addSubview(currentTimeLabel)

@@ -18,6 +18,7 @@ class PlayerView: UIView {
 
     let playingTitleLabel: UILabel = {
         let v = UILabel(frame: .zero)
+        v.isUserInteractionEnabled = true
         v.textColor = .white
         v.numberOfLines = 0
         v.font = UIFont.systemFont(ofSize: 14.0, weight: .light)

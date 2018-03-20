@@ -75,6 +75,10 @@ class PlayerViewController: UIViewController {
             me.dismiss(animated: true)
         }).disposed(by: disposeBag)
 
+        headerView.clearPlaylistButton.rx.tap.subscribe(onNext: {
+            AudioPlayer.shared.playlist.accept([])
+        }).disposed(by: disposeBag)
+
         headerView.playingPositionSlider.rx.value
             .map { Double($0) }
             .bind(to: AudioPlayer.shared.currentTimeInput)

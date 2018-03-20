@@ -82,7 +82,7 @@ class TabBarController: UITabBarController {
             guard let me = self else { return }
             AppRouter.shared.route(to: .player, from: me)
         }).disposed(by: disposeBag)
-        playerView.addGestureRecognizer(tap)
+        playerView.playingTitleLabel.addGestureRecognizer(tap)
 
         playerView.changePlayStateButton.rx.tap.subscribe(onNext: {
             AudioPlayer.shared.playOrStop()

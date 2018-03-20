@@ -22,11 +22,6 @@ class AudioPlayer: NSObject {
 
     let state = BehaviorRelay<State>(value: .stop)
     let playlist = BehaviorRelay<[URL]>(value: [])
-//    var playlist: [URL] {
-//        didSet {
-//            playlistNextIndex = 0
-//        }
-//    }
     let playingPosition = PublishSubject<Double>()
     let currentTime = PublishSubject<String>()
     let currentTimeInput = PublishSubject<Double>()
@@ -55,6 +50,12 @@ class AudioPlayer: NSObject {
                 me.stop()
             case .resume:
                 me.resume()
+            }
+        }).disposed(by: disposeBag)
+
+        playlist.subscribe(onNext: { [weak self] urls in
+            if urls.isEmpty {
+                self?.playlistNextIndex = 0
             }
         }).disposed(by: disposeBag)
 
@@ -101,7 +102,7 @@ class AudioPlayer: NSObject {
             return .success
         }
 
-        Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] (timer) in
+        Timer.scheduledTimer(withTimeInterval: 0.3, repeats: true) { [weak self] (timer) in
             guard let me = self, let player = me.player else { return }
             let position = player.currentTime / player.duration
             let min = Int(player.currentTime/60)
@@ -136,6 +137,12 @@ class AudioPlayer: NSObject {
         case .resume:
             state.accept(.stop)
         }
+    }
+
+    func appendPlaylistToQueue(_ playlist: [URL]) {
+        var a = self.playlist.value
+        a += playlist
+        self.playlist.accept(a)
     }
 
     private func play() {
