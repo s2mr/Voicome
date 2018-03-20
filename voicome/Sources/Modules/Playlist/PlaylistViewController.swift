@@ -38,7 +38,9 @@ class PlaylistViewController: UIViewController {
 
         self.view.addSubview(contentView)
         contentView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+            $0.top.right.left.equalToSuperview()
+            $0.bottom.equalToSuperview()
+                .offset(-(AppRouter.shared.rootViewController.playerView.frame.height+self.tabBarController!.tabBar.frame.height))
         }
 
         self.navigationItem.rightBarButtonItem = contentView.downloadButton

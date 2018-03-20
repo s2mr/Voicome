@@ -39,7 +39,9 @@ class DownloadedListViewController: UIViewController {
 
         self.view.addSubview(contentView)
         contentView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+            $0.top.right.left.equalToSuperview()
+            $0.bottom.equalToSuperview()
+                .offset(-(AppRouter.shared.rootViewController.playerView.frame.height+self.tabBarController!.tabBar.frame.height))
         }
     }
 
@@ -72,27 +74,5 @@ class DownloadedListViewController: UIViewController {
             guard let me = self else { return }
             me.navigationItem.setRightBarButton(isAudioDirectory ? me.contentView.playAllButton : nil, animated: true)
         }).disposed(by: disposeBag)
-
-//        contentView.tableView.rx.modelSelected(URL.self)
-//            .map { url -> Optional<URL> in
-//                var res: URL = url
-//                while let url = try? FileManager.default.contentsOfDirectory(at: res, includingPropertiesForKeys: nil, options: [.skipsHiddenFiles]).first {
-//                    if let url = url {
-//                        res = url
-//                    }
-//                }
-//                return res
-//            }
-//            .subscribe(onNext: { [unowned self] url in
-//                print(url)
-//                guard let url = url else { return }
-//                do {
-//                    self.player = try AVAudioPlayer(contentsOf: URL(fileURLWithPath: url.path), fileTypeHint: url.pathExtension)
-//                    self.player.prepareToPlay()
-//                    self.player.play()
-//                } catch let e {
-//                    print(e)
-//                }
-
     }
 }
