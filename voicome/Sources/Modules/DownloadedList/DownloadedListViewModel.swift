@@ -61,7 +61,7 @@ class DownloadedListViewModel {
                 AppRouter.shared.route(to: .downloadedList(url: url), from: nil)
             } else {
                 // file
-                AudioPlayer.shared.playlist = [url]
+                AudioPlayer.shared.playlist.accept([url])
                 AudioPlayer.shared.state.accept(.playing)
             }
         }).disposed(by: disposeBag)
@@ -69,7 +69,7 @@ class DownloadedListViewModel {
         input.playAllButtonTapped
             .withLatestFrom(items.asDriver())
             .drive(onNext: { urls in
-                AudioPlayer.shared.playlist = urls
+                AudioPlayer.shared.playlist.accept(urls)
                 AudioPlayer.shared.state.accept(.playing)
             }).disposed(by: disposeBag)
 

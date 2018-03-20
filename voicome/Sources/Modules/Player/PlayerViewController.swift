@@ -16,13 +16,15 @@ class PlayerViewController: UIViewController {
         return vc
     }
 
-    let headerView: PlayerHeaderView
-    let contentView: PlayerView
+    private let headerView: PlayerHeaderView
+    private let playerView: PlayerView
+    private let footerView: PlayerFooterView
     private let disposeBag = DisposeBag()
 
     init(playerView: PlayerView) {
         self.headerView = PlayerHeaderView(frame: .zero)
-        self.contentView = playerView
+        self.playerView = playerView
+        self.footerView = PlayerFooterView(frame: .zero)
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -41,10 +43,16 @@ class PlayerViewController: UIViewController {
             $0.height.equalTo(300)
         }
 
-        self.view.addSubview(contentView)
-        contentView.snp.makeConstraints {
+        self.view.addSubview(playerView)
+        playerView.snp.makeConstraints {
             $0.top.equalTo(headerView.snp.bottom).offset(10)
             $0.width.equalToSuperview()
+        }
+
+        self.view.addSubview(footerView)
+        footerView.snp.makeConstraints {
+            $0.top.equalTo(playerView.snp.bottom)
+            $0.right.left.bottom.equalToSuperview()
         }
     }
 
@@ -55,6 +63,13 @@ class PlayerViewController: UIViewController {
     }
 
     func subscribe() {
+        let swipeDown = UISwipeGestureRecognizer()
+        swipeDown.direction = .down
+        swipeDown.rx.event.subscribe(onNext: { [weak self] _ in
+            self?.dismiss(animated: true)
+        }).disposed(by: disposeBag)
+        self.view.addGestureRecognizer(swipeDown)
+
         headerView.backButton.rx.tap.subscribe(onNext: { [weak self] in
             guard let me = self else { return }
             me.dismiss(animated: true)
@@ -64,6 +79,12 @@ class PlayerViewController: UIViewController {
             .map { Double($0) }
             .bind(to: AudioPlayer.shared.currentTimeInput)
             .disposed(by: disposeBag)
+
+        AudioPlayer.shared.playlist.bind(to: footerView.playlistTableView.rx.items) { (tableView, row, url) -> UITableViewCell in
+            let cell = UITableViewCell()
+            cell.textLabel?.text = url.lastPathComponent
+            return cell
+        }.disposed(by: disposeBag)
 
         AudioPlayer.shared.playingPosition
             .map { Float($0) }

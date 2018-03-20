@@ -20,12 +20,13 @@ class AudioPlayer: NSObject {
         case resume
     }
 
-    let state: BehaviorRelay<State>
-    var playlist: [URL] {
-        didSet {
-            playlistNextIndex = 0
-        }
-    }
+    let state = BehaviorRelay<State>(value: .stop)
+    let playlist = BehaviorRelay<[URL]>(value: [])
+//    var playlist: [URL] {
+//        didSet {
+//            playlistNextIndex = 0
+//        }
+//    }
     let playingPosition = PublishSubject<Double>()
     let currentTime = PublishSubject<String>()
     let currentTimeInput = PublishSubject<Double>()
@@ -38,8 +39,6 @@ class AudioPlayer: NSObject {
     static let shared = AudioPlayer()
 
     private override init() {
-        self.playlist = []
-        self.state = BehaviorRelay(value: .stop)
         super.init()
 
         subscribe()
@@ -116,11 +115,11 @@ class AudioPlayer: NSObject {
         if playlistNextIndex - 1 >= 0 {
             playlistNextIndex -= 1
         }
-        play(playlist[playlistNextIndex])
+        play(playlist.value[playlistNextIndex])
     }
 
     func playNext() {
-        if playlistNextIndex + 1 < playlist.count {
+        if playlistNextIndex + 1 < playlist.value.count {
             playlistNextIndex += 1
             play()
         } else {
@@ -140,7 +139,7 @@ class AudioPlayer: NSObject {
     }
 
     private func play() {
-        play(playlist[playlistNextIndex])
+        play(playlist.value[playlistNextIndex])
     }
 
     private func stop() {
