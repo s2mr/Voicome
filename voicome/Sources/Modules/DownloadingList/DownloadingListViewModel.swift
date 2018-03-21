@@ -47,11 +47,11 @@ class DownloadingListViewModel {
                         me.voices.accept(voices)
                     }
                 }
-                print(r.progress)
             }, onError: { (e) in
                 print(e.localizedDescription)
-            }, onCompleted: {
-                print("download completed")
+            }, onCompleted: { [weak self] in
+                guard let me = self else { return }
+                print("download completed..remaining -> \(me.voices.value.count)")
             }, onDisposed: {
             }).disposed(by: disposeBag)
     }

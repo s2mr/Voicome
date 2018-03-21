@@ -79,8 +79,9 @@ class DownloadedListViewModel {
         } catch let e {
             print(e)
         }
-        urls = urls.sorted { (u1, u2) -> Bool in
-            return u1.lastPathComponent < u2.lastPathComponent
+
+        urls = urls.sorted {
+            $0.lastPathComponent.localizedStandardCompare($1.lastPathComponent) == ComparisonResult.orderedAscending
         }
         items.accept(urls)
         if let url = urls.first {

@@ -116,7 +116,9 @@ class AudioPlayer: NSObject {
         if playlistNextIndex - 1 >= 0 {
             playlistNextIndex -= 1
         }
-        play(playlist.value[playlistNextIndex])
+        if playlist.value.count > 0 {
+            play(playlist.value[playlistNextIndex])
+        }
     }
 
     func playNext() {

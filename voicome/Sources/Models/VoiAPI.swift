@@ -69,7 +69,17 @@ extension VoiAPI: TargetType {
         case .voiceData(let voice):
             let destination: DownloadRequest.DownloadFileDestination = { _, _ in
                 let directoryURL = FileManager.default.urls(for: .libraryDirectory, in: .userDomainMask)[0]
-                let fileURL = directoryURL.appendingPathComponent("/Downloaded/\(voice.speakerName ?? "unknown")/\(voice.playlistName ?? "unknown")/\(voice.voiceIndex ?? 0).\(voice.articleTitle).mpeg")
+                guard var speakerName = voice.speakerName,
+                    var playlistName = voice.playlistName,
+                    let voiceIndex = voice.voiceIndex else {
+                        return (directoryURL.appendingPathComponent("/Downloaded/unknown.mpeg"), [.removePreviousFile, .createIntermediateDirectories])
+                }
+
+                speakerName = speakerName.replacingOccurrences(of: "/", with: "／")
+                playlistName = playlistName.replacingOccurrences(of: "/", with: "／")
+                let articleTitle = voice.articleTitle.replacingOccurrences(of: "/", with: "／")
+
+                let fileURL = directoryURL.appendingPathComponent("/Downloaded/\(speakerName)/\(playlistName)/\(voiceIndex).\(articleTitle).mpeg")
 
                 print("Downloaded", fileURL.absoluteString)
 
