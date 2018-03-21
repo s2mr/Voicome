@@ -53,8 +53,10 @@ class DownloadedListViewController: UIViewController {
 
     func subscribe() {
         let urlSelected = contentView.tableView.rx.modelSelected(URL.self)
+        let urlDeleted = contentView.tableView.rx.modelDeleted(URL.self)
         let input = DownloadedListViewModel.Input(viewWillAppear: self.rx.viewWillAppear.asDriver(),
                                                    urlSelected: urlSelected.asDriver(),
+                                                   urlDeleted: urlDeleted.asDriver(),
                                                    playAllButtonTapped: contentView.playAllButton.rx.tap.asDriver())
         let output = viewModel.translate(input)
 

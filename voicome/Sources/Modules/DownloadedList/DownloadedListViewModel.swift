@@ -26,6 +26,7 @@ class DownloadedListViewModel {
     struct Input {
         let viewWillAppear: Driver<Void>
         let urlSelected: Driver<URL>
+        let urlDeleted: Driver<URL>
         let playAllButtonTapped: Driver<Void>
     }
 
@@ -37,24 +38,10 @@ class DownloadedListViewModel {
     func translate(_ input: Input) -> Output {
         input.viewWillAppear.drive(onNext: { [weak self] in
             guard let me = self else { return }
-            var urls: [URL] = []
-            do {
-                urls = try me.fileManager.contentsOfDirectory(at: me.currentDirectory,
-                                                           includingPropertiesForKeys: nil,
-                                                           options: [.skipsHiddenFiles])
-            } catch let e {
-                print(e)
-            }
-            urls = urls.sorted { (u1, u2) -> Bool in
-                return u1.lastPathComponent < u2.lastPathComponent
-            }
-            me.items.accept(urls)
-            if let url = urls.first {
-                me.audioDirectorySubject.onNext(url.pathExtension != "")
-            }
+            me.reloadFiles()
         }).disposed(by: disposeBag)
 
-        input.urlSelected.drive(onNext: {[weak self] url in
+        input.urlSelected.drive(onNext: { [weak self] url in
             guard let me = self else { return }
             if let _ = try? me.fileManager.contentsOfDirectory(atPath: url.path) {
                 // directory
@@ -66,6 +53,13 @@ class DownloadedListViewModel {
             }
         }).disposed(by: disposeBag)
 
+        input.urlDeleted.drive(onNext: { [weak self] url in
+            guard let me = self else { return }
+            guard me.fileManager.isDeletableFile(atPath: url.path) else { return }
+            do { try me.fileManager.removeItem(at: url) } catch let e { print(e) }
+            me.reloadFiles()
+        }).disposed(by: disposeBag)
+
         input.playAllButtonTapped
             .withLatestFrom(items.asDriver())
             .drive(onNext: { urls in
@@ -74,5 +68,23 @@ class DownloadedListViewModel {
             }).disposed(by: disposeBag)
 
         return Output(items: items, audioDirectorySubject: audioDirectorySubject)
+    }
+
+    private func reloadFiles() {
+        var urls: [URL] = []
+        do {
+            urls = try fileManager.contentsOfDirectory(at: currentDirectory,
+                                                          includingPropertiesForKeys: nil,
+                                                          options: [.skipsHiddenFiles])
+        } catch let e {
+            print(e)
+        }
+        urls = urls.sorted { (u1, u2) -> Bool in
+            return u1.lastPathComponent < u2.lastPathComponent
+        }
+        items.accept(urls)
+        if let url = urls.first {
+            audioDirectorySubject.onNext(url.pathExtension != "")
+        }
     }
 }
