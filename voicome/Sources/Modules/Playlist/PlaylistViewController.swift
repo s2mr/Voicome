@@ -58,7 +58,7 @@ class PlaylistViewController: UIViewController {
         let output = viewModel.translate(input)
 
         output.voiceDatas.asDriver()
-            .drive(self.contentView.tableView.rx.items)  { (tableView, row, voiceData) -> UITableViewCell in
+            .drive(self.contentView.tableView.rx.items) { (tableView, row, voiceData) -> UITableViewCell in
                 let cell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
                 cell.textLabel?.text = voiceData.articleTitle
                 let min = voiceData.voiceDuration/(1000*60)

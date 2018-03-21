@@ -55,7 +55,7 @@ class DownloadingListViewController: UIViewController {
             me.dismiss(animated: true, completion: nil)
         }).disposed(by: disposeBag)
 
-        viewModel.voices.bind(to: contentView.tableView.rx.items)  { (tableView, row, voice) -> UITableViewCell in
+        viewModel.voices.bind(to: contentView.tableView.rx.items) { (tableView, row, voice) -> UITableViewCell in
             let cell = UITableViewCell(style: .default, reuseIdentifier: nil)
             cell.textLabel?.text = voice.articleTitle
             return cell

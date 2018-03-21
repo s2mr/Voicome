@@ -57,4 +57,3 @@ struct VoicyResponse: Codable {
     }
     let value: PlaylistDatas
 }
-

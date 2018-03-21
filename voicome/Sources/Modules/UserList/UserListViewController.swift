@@ -69,4 +69,3 @@ extension UserListViewController: UITableViewDelegate {
         AppRouter.shared.route(to: .programList(user: viewModel.users[indexPath.row]), from: self)
     }
 }
-

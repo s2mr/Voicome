@@ -14,26 +14,26 @@ class ProgramListView: UIView {
         let v = UITableView()
         return v
     }()
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         commonInit()
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         commonInit()
     }
-    
+
     private func commonInit() {
         setupLayout()
     }
-    
+
     private func setupLayout() {
         self.addSubview(tableView)
         tableView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
     }
-    
+
 }

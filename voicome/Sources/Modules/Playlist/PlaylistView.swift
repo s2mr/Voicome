@@ -19,28 +19,28 @@ class PlaylistView: UIView {
         let v = UITableView(frame: .zero)
         return v
     }()
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         commonInit()
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         commonInit()
     }
-    
+
     private func commonInit() {
         setupLayout()
 
         self.backgroundColor = .white
     }
-    
+
     private func setupLayout() {
         self.addSubview(tableView)
         tableView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
     }
-    
+
 }

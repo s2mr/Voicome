@@ -93,7 +93,7 @@ extension VoiAPI: TargetType {
         }
     }
 
-    var headers: [String : String]? {
+    var headers: [String: String]? {
         return nil
     }
 
@@ -104,7 +104,7 @@ extension Single where Element == Moya.Response {
         return self.asObservable().map { response in
             do {
                 return try JSONDecoder().decode(classType, from: response.data)
-            } catch (let e) {
+            } catch let e {
                 throw e
             }
             }.asSingle()

@@ -12,5 +12,5 @@ target 'voicome' do
   pod 'R.swift'
   pod 'Moya/RxSwift'
   pod 'SnapKit'
-
+  pod 'SwiftLint'
 end

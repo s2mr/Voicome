@@ -27,23 +27,23 @@ class DownloadingListView: UIView {
         let v = UITableView(frame: .zero)
         return v
     }()
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         commonInit()
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         commonInit()
     }
-    
+
     private func commonInit() {
         self.backgroundColor = .white
 
         setupLayout()
     }
-    
+
     private func setupLayout() {
         self.addSubview(self.headerView)
         self.headerView.snp.makeConstraints {
@@ -64,5 +64,5 @@ class DownloadingListView: UIView {
             $0.width.bottom.equalToSuperview()
         }
     }
-    
+
 }

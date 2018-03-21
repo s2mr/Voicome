@@ -58,7 +58,7 @@ class DownloadedListViewController: UIViewController {
                                                    playAllButtonTapped: contentView.playAllButton.rx.tap.asDriver())
         let output = viewModel.translate(input)
 
-        output.items.asDriver().drive(contentView.tableView.rx.items)  { (tableView, row, url) -> UITableViewCell in
+        output.items.asDriver().drive(contentView.tableView.rx.items) { (tableView, row, url) -> UITableViewCell in
             let cell = UITableViewCell(style: .default, reuseIdentifier: nil)
             let fileName = url.lastPathComponent
             if let range = fileName.range(of: ".\(url.pathExtension)") {

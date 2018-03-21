@@ -6,6 +6,8 @@
 //  Copyright © 2018年 kazu. All rights reserved.
 //
 
+// swiftlint:disable function_body_length
+
 import UIKit
 import RxSwift
 

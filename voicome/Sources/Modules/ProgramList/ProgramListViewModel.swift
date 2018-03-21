@@ -27,7 +27,7 @@ class ProgramListViewModel {
     struct Output {
         let playlists: BehaviorRelay<[VoicyResponse.PlaylistData]>
     }
- 
+
     func translate(from input: Input) -> Output {
         input.viewWillAppear
             .flatMap { [weak self] () -> Driver<VoicyResponse> in

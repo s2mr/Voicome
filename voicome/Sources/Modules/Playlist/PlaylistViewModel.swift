@@ -38,7 +38,7 @@ class PlaylistViewModel {
         self.voiceDatas = BehaviorRelay(value: datas)
         self.action = PublishSubject()
         self.state = PublishSubject()
-        
+
         self.action
             .map(translate)
             .subscribe(onNext: {

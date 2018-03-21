@@ -22,9 +22,8 @@ class UserListViewModel {
                  User(name: "勝手にENGLISH JOURNAL!", channelId: 567),
                  User(name: "Voicy公式経済総合ニュース", channelId: 95),
                  User(name: "公式ITビジネスニュース", channelId: 480),
-                 User(name: "仮想通貨・ICOについて議論！", channelId: 545),
-
+                 User(name: "仮想通貨・ICOについて議論！", channelId: 545)
         ]
     }
-    
+
 }
